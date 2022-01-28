@@ -1,0 +1,28 @@
+# Temps and backups
+tmp/
+*.tmp
+*.bak
+
+# Generated build artifact directories
+Debug/
+Release/
+Flash/
+RAM/
+
+# Generated build artifacts
+makefile
+*.map
+*.mk
+*.opt
+*.pp
+*.xml
+
+# Generated based on device and connection settings
+targetConfigs/
+
+# Generated directories
+.config/
+.launches/
+
+# Generated file used to help display error messages in the problems view
+.xdchelp
