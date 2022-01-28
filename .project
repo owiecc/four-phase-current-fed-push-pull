@@ -24,4 +24,22 @@
 		<nature>org.eclipse.cdt.core.ccnature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>device.c</name>
+			<type>1</type>
+			<locationURI>C2000WARE/device_support/f28002x/common/source/device.c</locationURI>
+		</link>
+		<link>
+			<name>driverlib.lib</name>
+			<type>1</type>
+			<locationURI>C2000WARE/driverlib/f28002x/driverlib/ccs/Debug/driverlib.lib</locationURI>
+		</link>
+	</linkedResources>
+	<variableList>
+		<variable>
+			<name>C2000WARE</name>
+			<value>file:/Applications/TI/C2000/C2000Ware_4_00_00_00</value>
+		</variable>
+	</variableList>
 </projectDescription>
