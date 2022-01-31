@@ -22,6 +22,52 @@ void main(void)
     InitSysCtrl(); // Init device clock and peripherals
     InitGpio(); // Init GPIO
 
+    EALLOW;
+    // GPIO0-GPIO15 (PWM1-8, A+B)
+    GpioCtrlRegs.GPAPUD.all &= 0xFFFF0000; // enable pullups
+    GpioCtrlRegs.GPAMUX1.all = 0x55555555; // set PWM function
+
+    // LEDs
+    GpioCtrlRegs.GPAPUD.bit.GPIO22 = 0;  // LED Overvoltage: Vclamp
+    GpioCtrlRegs.GPAMUX2.bit.GPIO22 = 0; // GPIO
+    GpioCtrlRegs.GPADIR.bit.GPIO22 = 1;  // output
+
+    GpioCtrlRegs.GPAPUD.bit.GPIO23 = 0;  // LED Overvoltage: Vout
+    GpioCtrlRegs.GPAMUX2.bit.GPIO23 = 0; // GPIO
+    GpioCtrlRegs.GPADIR.bit.GPIO23 = 1;  // output
+
+    GpioCtrlRegs.GPAPUD.bit.GPIO28 = 0;  // LED Overvoltage: Vin
+    GpioCtrlRegs.GPAMUX2.bit.GPIO28 = 0; // GPIO
+    GpioCtrlRegs.GPADIR.bit.GPIO28 = 1;  // output
+
+    GpioCtrlRegs.GPAPUD.bit.GPIO29 = 0;  // LED Overcurrent
+    GpioCtrlRegs.GPAMUX2.bit.GPIO29 = 0; // GPIO
+    GpioCtrlRegs.GPADIR.bit.GPIO29 = 1;  // output
+
+    GpioCtrlRegs.GPAPUD.bit.GPIO30 = 0;  // LED PI regulator OK: Io
+    GpioCtrlRegs.GPAMUX2.bit.GPIO30 = 0; // GPIO
+    GpioCtrlRegs.GPADIR.bit.GPIO30 = 1;  // output
+
+    GpioCtrlRegs.GPAPUD.bit.GPIO31 = 0;  // LED PI regulator OK: Vclamp
+    GpioCtrlRegs.GPAMUX2.bit.GPIO31 = 0; // GPIO
+    GpioCtrlRegs.GPADIR.bit.GPIO31 = 1;  // output
+
+    // Button inputs
+    GpioCtrlRegs.GPBCTRL.bit.QUALPRD0 = 1; // Qual period = SYSCLKOUT/2
+    GpioCtrlRegs.GPBDIR.bit.GPIO39 = 0;    // input
+    GpioCtrlRegs.GPBQSEL1.bit.GPIO39 = 2;  // 6 samples
+    GpioCtrlRegs.GPBDIR.bit.GPIO42 = 0;    // input
+    GpioCtrlRegs.GPBQSEL1.bit.GPIO42 = 2;  // 6 samples
+    GpioCtrlRegs.GPBDIR.bit.GPIO43 = 0;    // input
+    GpioCtrlRegs.GPBQSEL1.bit.GPIO43 = 2;  // 6 samples
+    GpioCtrlRegs.GPBDIR.bit.GPIO44 = 0;    // input
+    GpioCtrlRegs.GPBQSEL1.bit.GPIO44 = 2;  // 6 samples
+    GpioCtrlRegs.GPBDIR.bit.GPIO45 = 0;    // input
+    GpioCtrlRegs.GPBQSEL1.bit.GPIO45 = 2;  // 6 samples
+    GpioCtrlRegs.GPBDIR.bit.GPIO46 = 0;    // input
+    GpioCtrlRegs.GPBQSEL1.bit.GPIO46 = 2;  // 6 samples
+    EDIS;
+
     DINT; // Disable global interrupt INTM
 
     InitPieCtrl(); // Init PIE control registers. All PIE interrupts disabled. All flags cleared.
@@ -64,22 +110,22 @@ void main(void)
     while(1)
     {
         // Start ePWM
-        EPwm1Regs.ETSEL.bit.SOCAEN = 1;    // Enable SOCA
-        EPwm1Regs.TBCTL.bit.CTRMODE = 0;   // Un-freeze, and enter up count mode
+        //EPwm1Regs.ETSEL.bit.SOCAEN = 1;    // Enable SOCA
+        //EPwm1Regs.TBCTL.bit.CTRMODE = 0;   // Un-freeze, and enter up count mode
 
         // Wait while ePWM causes ADC conversions, which then cause interrupts,
         // which fill the results buffer, eventually setting the bufferFull flag
-        while(!bufferFull)
-        {
-        }
-        bufferFull = 0; //clear the buffer full flag
+        //while(!bufferFull)
+        //{
+        //}
+        //bufferFull = 0; //clear the buffer full flag
 
         // Stop ePWM
-        EPwm1Regs.ETSEL.bit.SOCAEN = 0;    // Disable SOCA
-        EPwm1Regs.TBCTL.bit.CTRMODE = 3;   // Freeze counter
+        //EPwm1Regs.ETSEL.bit.SOCAEN = 0;    // Disable SOCA
+        //EPwm1Regs.TBCTL.bit.CTRMODE = 3;   // Freeze counter
 
         // Software breakpoint. At this point, conversion results are stored in adcAResults.
-        ESTOP0; // Hit run again to get updated conversions.
+        // ESTOP0; // Hit run again to get updated conversions.
     }
 }
 
@@ -101,14 +147,31 @@ void initADC(void)
 void initEPWM(void)
 {
     EALLOW;
-    EPwm1Regs.ETSEL.bit.SOCAEN = 0;     // Disable SOC on A group
-    EPwm1Regs.ETSEL.bit.SOCASEL = 4;    // Select SOC on up-count
+    EPwm1Regs.ETSEL.bit.SOCAEN = 1;     // Disable SOC on A group
+    EPwm1Regs.ETSEL.bit.SOCASEL = 1;    // Select SOC on up-count
     EPwm1Regs.ETPS.bit.SOCAPRD = 1;     // Generate pulse on 1st event
 
-    EPwm1Regs.CMPA.bit.CMPA = 0x0800;   // Set compare A value to 2048 counts
-    EPwm1Regs.TBPRD = 0x1000;           // Set period to 4096 counts
+    EPwm1Regs.TBPRD = 1250;           // Set period to 40kHz
+    EPwm1Regs.CMPA.bit.CMPA = 1250/2;   // Set compare A value to 50%
+    EPwm1Regs.TBPHS.bit.TBPHS = 0;
+    EPwm1Regs.TBCTR = 0;
+    EPwm1Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
+    EPwm1Regs.TBCTL.bit.PHSEN = 0;      // Master module
+    EPwm1Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
+    EPwm1Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
+    EPwm1Regs.TBCTL.bit.CLKDIV = 0;
+    EPwm1Regs.CMPCTL.bit.SHDWAMODE = 0;
+    EPwm1Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
+    EPwm1Regs.AQCTLA.bit.CAU = 2;       // High on counter up
+    EPwm1Regs.AQCTLA.bit.CAD = 1;       // Low on counter down
 
-    EPwm1Regs.TBCTL.bit.CTRMODE = 3;    // Freeze counter
+    EPwm1Regs.DBCTL.bit.IN_MODE = 0;    // Channel A input
+    EPwm1Regs.DBCTL.bit.DEDB_MODE = 0;  //
+    EPwm1Regs.DBCTL.bit.POLSEL = 2;     // Active high, complementary
+    EPwm1Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
+
+    EPwm1Regs.DBFED.bit.DBFED = 20;     // 200ns
+    EPwm1Regs.DBRED.bit.DBRED = 20;     // 200ns
     EDIS;
 }
 
@@ -142,6 +205,7 @@ void initADCSOC(void)
 // adcA1ISR - ADC A Interrupt 1 ISR
 __interrupt void adcA1ISR(void)
 {
+    GpioDataRegs.GPATOGGLE.bit.GPIO22 = 1;
     // Add the latest result to the buffer
     // ADCRESULT0 is the result register of SOC0
     adcAResults[index++] = AdcaResultRegs.ADCRESULT0;
