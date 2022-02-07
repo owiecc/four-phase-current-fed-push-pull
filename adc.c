@@ -2,6 +2,40 @@
 #include "adc.h"
 #include "f28x_project.h"
 
+struct ADCCalibration ADCCal = {
+    .coeffACD0 = (struct ADCScaling) {.gain = (6*665e3+10e3)/10e3*3.3/4095, .offset = 0}, // (6×665k, 10k) voltage divider
+    .coeffACD1 = (struct ADCScaling) {.gain = (6*665e3+10e3)/10e3*3.3/4095, .offset = 0}, // (6×665k, 10k) voltage divider
+    .coeffACD2 = (struct ADCScaling) {.gain = (9*665e3+10e3/2+10e3)/10e3*3.3/4095, .offset = 0}, // (9×665k + 10k/2, 10k) voltage divider
+    .coeffACD3 = (struct ADCScaling) {.gain = 6.0/0.625*(3.3e3+6.8e3)/6.8e3*3.3/4095, .offset = (unsigned int) 2.5*6.8e3/(3.3e3+6.8e3)*4095/3.3} // LEM6-NP + (3.3k, 6.8k) voltage divider
+};
+
+struct ADCResult readADC(void)
+{
+    AdcaRegs.ADCSOCFRC1.all = 0x000F; // Force SOC0 to SOC3
+
+    while (AdcaRegs.ADCINTFLG.bit.ADCINT1 != 1) {} // Wait for conversion to finish
+
+    ; // Vin
+    AdcaResultRegs.ADCRESULT1; // Vout
+    AdcaResultRegs.ADCRESULT2; // Vclamp
+    AdcaResultRegs.ADCRESULT3; // Iout
+
+    struct ADCResult adcOut;
+    adcOut.Vin = scaleADC(AdcaResultRegs.ADCRESULT0, ADCCal.coeffACD0);
+    adcOut.Vout = scaleADC(AdcaResultRegs.ADCRESULT1, ADCCal.coeffACD1);
+    adcOut.Vclamp = scaleADC(AdcaResultRegs.ADCRESULT2, ADCCal.coeffACD2);
+    adcOut.Iout = scaleADC(AdcaResultRegs.ADCRESULT3, ADCCal.coeffACD3);
+
+    AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Clear the interrupt flag
+
+    return adcOut;
+}
+
+inline float scaleADC(unsigned int ADCResult, struct ADCScaling coeffADC)
+{
+    return (ADCResult - coeffADC.offset)*coeffADC.gain;
+}
+
 // initADC - Function to configure and power up ADCA.
 void initADC(void)
 {
