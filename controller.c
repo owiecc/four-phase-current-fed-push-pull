@@ -2,47 +2,43 @@
 #include "controller.h"
 #include "f28x_project.h"
 
-struct SOALimitsConverter SOA = {
-    .Vin =    (struct SOALimits) {.maxTrip =  840, .maxStartup =  820, .minStartup =  780, .minTrip = 720 },
-    .Vout =   (struct SOALimits) {.maxTrip =  930, .maxStartup =  925, .minStartup =  195, .minTrip = 190 },
-    .Vclamp = (struct SOALimits) {.maxTrip = 1260, .maxStartup = 1230, .minStartup = 1170, .minTrip = 1140},
-    .Iout =   (struct SOALimits) {.maxTrip =    2, .maxStartup =  0.1, .minStartup = -0.1, .minTrip = 0   }
+struct OPLimitsConverter SOA = {
+    .Vin =    (struct OPLimits) {.tripHi =  840, .startupHi =  820, .startupLo =  780, .tripLo = 720 },
+    .Vout =   (struct OPLimits) {.tripHi =  930, .startupHi =  925, .startupLo =  195, .tripLo = 190 },
+    .Vclamp = (struct OPLimits) {.tripHi = 1260, .startupHi = 1230, .startupLo = 1170, .tripLo = 1140},
+    .Iout =   (struct OPLimits) {.tripHi =    2, .startupHi =  0.1, .startupLo = -0.1, .tripLo = 0   }
 };
 
-inline int isInSOATrip(float val, struct SOALimits lims)
+inline int isInSOAOn(float val, struct OPLimits lims)
 {
-    return val > lims.maxTrip + val < lims.minTrip;
+    return val < lims.tripHi && val > lims.tripLo;
 }
 
-inline int isInSOAStartup(float val, struct SOALimits lims)
+inline int isInSOAStartup(float val, struct OPLimits lims)
 {
-    return val > lims.maxStartup + val < lims.minStartup;
-}
-
-inline int isInSOAStandby(float val, struct SOALimits lims)
-{
-    return val > lims.maxStartup + val < lims.minStartup;
+    return val < lims.startupHi && val > lims.startupLo;
 }
 
 enum trip_reasons isInSOA(struct ADCResult sensors, enum converter_states cs)
 {
     switch (cs) {
     case StateOn:
-        if (isInSOATrip(sensors.Iout, SOA.Iout)) return TripOC;
-        if (isInSOATrip(sensors.Vclamp, SOA.Vclamp)) return TripSOAVclamp;
-        if (isInSOATrip(sensors.Vout, SOA.Vout)) return TripSOAVout;
-        if (isInSOATrip(sensors.Vin, SOA.Vin)) return TripSOAVin;
+        if (!isInSOAOn(sensors.Iout, SOA.Iout)) return TripOC;
+        if (!isInSOAOn(sensors.Vclamp, SOA.Vclamp)) return TripSOAVclamp;
+        if (!isInSOAOn(sensors.Vout, SOA.Vout)) return TripSOAVout;
+        if (!isInSOAOn(sensors.Vin, SOA.Vin)) return TripSOAVin;
         break;
     case StateStandby:
-        if (isInSOAStartup(sensors.Iout, SOA.Iout)) return TripOC;
-        if (isInSOAStartup(sensors.Vout, SOA.Vout)) return TripSOAVout;
-        if (isInSOAStartup(sensors.Vin, SOA.Vin)) return TripSOAVin;
+        if (!isInSOAStartup(sensors.Iout, SOA.Iout)) return TripOC;
+        if (!isInSOAStartup(sensors.Vclamp, SOA.Vout)) return TripSOAVclamp; // Vclamp is charged to Vout
+        if (!isInSOAStartup(sensors.Vout, SOA.Vout)) return TripSOAVout;
+        if (!isInSOAStartup(sensors.Vin, SOA.Vin)) return TripSOAVin;
         break;
     default:
-        if (isInSOAStartup(sensors.Iout, SOA.Iout)) return TripOC;
-        if (isInSOAStartup(sensors.Vclamp, SOA.Vclamp)) return TripSOAVclamp;
-        if (isInSOAStartup(sensors.Vout, SOA.Vout)) return TripSOAVout;
-        if (isInSOAStartup(sensors.Vin, SOA.Vin)) return TripSOAVin;
+        if (!isInSOAStartup(sensors.Iout, SOA.Iout)) return TripOC;
+        if (!isInSOAStartup(sensors.Vclamp, SOA.Vclamp)) return TripSOAVclamp;
+        if (!isInSOAStartup(sensors.Vout, SOA.Vout)) return TripSOAVout;
+        if (!isInSOAStartup(sensors.Vin, SOA.Vin)) return TripSOAVin;
     }
     return NoTrip;
 }

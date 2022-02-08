@@ -7,23 +7,22 @@
 enum converter_states {StateInitDSP,StateStandby,StateStartup,StateOn,StateShutdown,StateTrip};
 enum trip_reasons {TripOC, TripSOAVin, TripSOAVout, TripSOAVclamp, NoTrip};
 
-struct SOALimits {
-    float maxTrip;
-    float maxStartup;
-    float minStartup;
-    float minTrip;
+struct OPLimits {
+    float tripHi;    // trip above this value
+    float startupHi; // startup allowed below this value
+    float startupLo; // startup allowed above this value
+    float tripLo;    // trip below this value
 };
 
-struct SOALimitsConverter {
-    struct SOALimits Vin;
-    struct SOALimits Vout;
-    struct SOALimits Vclamp;
-    struct SOALimits Iout;
+struct OPLimitsConverter {
+    struct OPLimits Vin;
+    struct OPLimits Vout;
+    struct OPLimits Vclamp;
+    struct OPLimits Iout;
 };
 
-int isInSOATrip(float, struct SOALimits);
-int isInSOAStandby(float, struct SOALimits);
-int isInSOAStartup(float, struct SOALimits);
+int isInSOAOn(float, struct OPLimits);
+int isInSOAStartup(float, struct OPLimits);
 enum trip_reasons isInSOA(struct ADCResult, enum converter_states);
 
 __interrupt void adcA1ISR(void);
