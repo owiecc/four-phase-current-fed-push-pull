@@ -4,6 +4,7 @@
 #include "init.h"
 #include "pwm.h"
 #include "adc.h"
+#include "leds.h"
 #include "input.h"
 
 // Globals
