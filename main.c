@@ -15,11 +15,9 @@ enum trip_reasons tripStatus;
 // Main
 void main(void)
 {
+    converter_state = StateInitDSP;
     while(1)
     {
-        converter_state = StateInitDSP;
-        // Get ADC values
-        // Get button pressed
         enum button button = button_pressed();
 
         switch (converter_state)
@@ -27,6 +25,8 @@ void main(void)
         case StateInitDSP:
         {
             initDSP(); // Configure GPIO, ADC, PWM
+            // TODO Turn the Vclamp controller off
+            // TODO Turn the current controller off
             converter_state = StateStandby;
             break;
         }
@@ -45,13 +45,13 @@ void main(void)
         case StateStartup:
         {
             relayOn();
-            // Turn the Vclamp controller on
-            // Turn the current controller off
+            // TODO Turn the Vclamp controller on
             break;
         }
         case StateOn:
         {
-            // Set reference current
+            // TODO Turn the current controller on
+            // TODO Set reference current
             break;
         }
         case StateShutdown:
