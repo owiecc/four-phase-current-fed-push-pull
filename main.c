@@ -7,7 +7,6 @@
 #include "input.h"
 
 // Globals
-enum converter_states {StateInitDSP,StateStandby,StateStartup,StateOn,StateShutdown,StateFail};
 static enum converter_states converter_state;
 
 // Main
