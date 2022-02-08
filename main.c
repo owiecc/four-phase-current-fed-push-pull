@@ -6,6 +6,7 @@
 #include "adc.h"
 #include "leds.h"
 #include "input.h"
+#include "relay.h"
 
 // Globals
 static enum converter_states converter_state;
@@ -39,6 +40,7 @@ void main(void)
         }
         case StateStartup:
         {
+            relayOn();
             // Turn the Vclamp controller on
             // Turn the current controller off
         }
@@ -48,10 +50,12 @@ void main(void)
         }
         case StateShutdown:
         {
-
+            relayOff(); // TODO Ramp current down to zero first
         }
         case StateTrip:
         {
+            relayOff(); // TODO Is this safe e.g. in over-current condition?
+
             // Indicate trip status on LEDs
             if (tripStatus == TripOC) { ledOn(LEDTripOC); } else { ledOff(LEDTripOC); }
             if (tripStatus == TripSOAVin) { ledOn(LEDTripSOAVin); } else { ledOff(LEDTripSOAVin); }
