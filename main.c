@@ -28,6 +28,7 @@ void main(void)
         {
             initDSP(); // Configure GPIO, ADC, PWM
             converter_state = StateStandby;
+            break;
         }
         case StateStandby:
         {
@@ -37,20 +38,24 @@ void main(void)
             // Enable startup transition only if all voltages are correct
             tripStatus = isInSOA(sensors, StateStandby);
             if (tripStatus == NoTrip) { break; }
+            break;
         }
         case StateStartup:
         {
             relayOn();
             // Turn the Vclamp controller on
             // Turn the current controller off
+            break;
         }
         case StateOn:
         {
             // Set reference current
+            break;
         }
         case StateShutdown:
         {
             relayOff(); // TODO Ramp current down to zero first
+            break;
         }
         case StateTrip:
         {
@@ -68,10 +73,11 @@ void main(void)
                 tripStatus = NoTrip;
                 converter_state = StateStandby;
             }
+            break;
         }
         default:
         {
-
+            break;
         }
         }
         DELAY_US(200000); // 0.2s
