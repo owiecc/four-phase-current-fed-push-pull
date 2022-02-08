@@ -57,6 +57,12 @@ void main(void)
             if (tripStatus == TripSOAVout) { ledOn(LEDTripSOAVout); } else { ledOff(LEDTripSOAVout); }
             if (tripStatus == TripSOAVclamp) { ledOn(LEDTripSOAVclamp); } else { ledOff(LEDTripSOAVclamp); }
 
+            // Clear trip condition only if trip clear button is pressed and the converter is within SOA
+            if (button_pressed() == BtnClrTrip && isInSOA(readADC(), StateStandby) == NoTrip)
+            {
+                tripStatus = NoTrip;
+                converter_state = StateStandby;
+            }
         }
         default:
         {
