@@ -4,7 +4,7 @@
 
 #include "adc.h"
 
-enum converter_states {StateInitDSP,StateStandby,StateStartup,StateOn,StateShutdown,StateFail};
+enum converter_states {StateInitDSP,StateStandby,StateStartup,StateOn,StateShutdown,StateTrip};
 enum trip_reasons {TripOC, TripSOAVin, TripSOAVout, TripSOAVclamp, NoTrip};
 
 struct SOALimits {

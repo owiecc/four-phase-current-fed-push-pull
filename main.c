@@ -48,7 +48,7 @@ void main(void)
         {
 
         }
-        case StateFail:
+        case StateTrip:
         {
 
         }
