@@ -4,10 +4,10 @@
 
 void relayOn(void)
 {
-    GpioDataRegs.GPASET.bit.GPIO34 = 1;
+    GpioDataRegs.GPBSET.bit.GPIO34 = 1;
 }
 
 void relayOff(void)
 {
-    GpioDataRegs.GPACLEAR.bit.GPIO34 = 1;
+    GpioDataRegs.GPBCLEAR.bit.GPIO34 = 1;
 }
