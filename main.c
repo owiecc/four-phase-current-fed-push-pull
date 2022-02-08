@@ -19,6 +19,7 @@ void main(void)
         converter_state = StateInitDSP;
         // Get ADC values
         // Get button pressed
+        enum button button = button_pressed();
 
         switch (converter_state)
         {
@@ -58,7 +59,7 @@ void main(void)
             if (tripStatus == TripSOAVclamp) { ledOn(LEDTripSOAVclamp); } else { ledOff(LEDTripSOAVclamp); }
 
             // Clear trip condition only if trip clear button is pressed and the converter is within SOA
-            if (button_pressed() == BtnClrTrip && isInSOA(readADC(), StateStandby) == NoTrip)
+            if (button == BtnClrTrip && isInSOA(readADC(), StateStandby) == NoTrip)
             {
                 tripStatus = NoTrip;
                 converter_state = StateStandby;
