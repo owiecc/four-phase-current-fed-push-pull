@@ -35,9 +35,11 @@ void main(void)
             struct ADCResult sensors;
             sensors = readADC();
 
-            // Enable startup transition only if all voltages are correct
-            tripStatus = isInSOA(sensors, StateStandby);
-            if (tripStatus == NoTrip) { break; }
+            // Enable startup transition only if the converter is within SOA
+            if (button == BtnOn && isInSOA(readADC(), StateStandby) == NoTrip)
+            {
+                converter_state = StateStartup;
+            }
             break;
         }
         case StateStartup:
