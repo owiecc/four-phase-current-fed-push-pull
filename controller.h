@@ -5,6 +5,7 @@
 #include "adc.h"
 
 enum converter_states {StateInitDSP,StateStandby,StateStartup,StateOn,StateShutdown,StateFail};
+enum trip_reasons {TripOC, TripSOAVin, TripSOAVout, TripSOAVclamp, NoTrip};
 
 struct SOALimits {
     float maxTrip;
@@ -22,7 +23,8 @@ struct SOALimitsConverter {
 
 int isInSOATrip(float, struct SOALimits);
 int isInSOAStartup(float, struct SOALimits);
-int isInSOA(struct ADCResult, enum converter_states);
+enum trip_reasons isInSOA(struct ADCResult, enum converter_states);
+
 __interrupt void adcA1ISR(void);
 
 #endif /* CONTROLLER_H_ */

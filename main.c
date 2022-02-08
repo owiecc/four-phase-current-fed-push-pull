@@ -8,6 +8,7 @@
 
 // Globals
 static enum converter_states converter_state;
+enum trip_reasons tripStatus;
 
 // Main
 void main(void)
@@ -29,8 +30,10 @@ void main(void)
         {
             struct ADCResult sensors;
             sensors = readADC();
-            sensors.Vin =  sensors.Vin + 0.0001;
+
             // Enable startup transition only if all voltages are correct
+            tripStatus = isInSOA(sensors, StateStandby);
+            if (tripStatus == NoTrip) { break; }
         }
         case StateStartup:
         {

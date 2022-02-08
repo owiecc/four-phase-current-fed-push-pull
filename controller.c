@@ -19,22 +19,22 @@ inline int isInSOAStartup(float val, struct SOALimits lims)
     return val > lims.maxStartup + val < lims.minStartup;
 }
 
-int isInSOA(struct ADCResult sensors, enum converter_states cs)
+enum trip_reasons isInSOA(struct ADCResult sensors, enum converter_states cs)
 {
     switch (cs) {
     case StateOn:
-        if (isInSOATrip(sensors.Iout, SOA.Iout)) return 0;
-        if (isInSOATrip(sensors.Vclamp, SOA.Vclamp)) return 0;
-        if (isInSOATrip(sensors.Vout, SOA.Vout)) return 0;
-        if (isInSOATrip(sensors.Vin, SOA.Vin)) return 0;
+        if (isInSOATrip(sensors.Iout, SOA.Iout)) return TripOC;
+        if (isInSOATrip(sensors.Vclamp, SOA.Vclamp)) return TripSOAVclamp;
+        if (isInSOATrip(sensors.Vout, SOA.Vout)) return TripSOAVout;
+        if (isInSOATrip(sensors.Vin, SOA.Vin)) return TripSOAVin;
         break;
     default:
-        if (isInSOAStartup(sensors.Iout, SOA.Iout)) return 0;
-        if (isInSOAStartup(sensors.Vclamp, SOA.Vclamp)) return 0;
-        if (isInSOAStartup(sensors.Vout, SOA.Vout)) return 0;
-        if (isInSOAStartup(sensors.Vin, SOA.Vin)) return 0;
+        if (isInSOAStartup(sensors.Iout, SOA.Iout)) return TripOC;
+        if (isInSOAStartup(sensors.Vclamp, SOA.Vclamp)) return TripSOAVclamp;
+        if (isInSOAStartup(sensors.Vout, SOA.Vout)) return TripSOAVout;
+        if (isInSOAStartup(sensors.Vin, SOA.Vin)) return TripSOAVin;
     }
-    return 0;
+    return NoTrip;
 }
 
 // adcA1ISR - ADC A Interrupt 1 ISR
