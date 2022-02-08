@@ -22,6 +22,7 @@ struct SOALimitsConverter {
 };
 
 int isInSOATrip(float, struct SOALimits);
+int isInSOAStandby(float, struct SOALimits);
 int isInSOAStartup(float, struct SOALimits);
 enum trip_reasons isInSOA(struct ADCResult, enum converter_states);
 

@@ -19,6 +19,11 @@ inline int isInSOAStartup(float val, struct SOALimits lims)
     return val > lims.maxStartup + val < lims.minStartup;
 }
 
+inline int isInSOAStandby(float val, struct SOALimits lims)
+{
+    return val > lims.maxStartup + val < lims.minStartup;
+}
+
 enum trip_reasons isInSOA(struct ADCResult sensors, enum converter_states cs)
 {
     switch (cs) {
@@ -27,6 +32,11 @@ enum trip_reasons isInSOA(struct ADCResult sensors, enum converter_states cs)
         if (isInSOATrip(sensors.Vclamp, SOA.Vclamp)) return TripSOAVclamp;
         if (isInSOATrip(sensors.Vout, SOA.Vout)) return TripSOAVout;
         if (isInSOATrip(sensors.Vin, SOA.Vin)) return TripSOAVin;
+        break;
+    case StateStandby:
+        if (isInSOAStartup(sensors.Iout, SOA.Iout)) return TripOC;
+        if (isInSOAStartup(sensors.Vout, SOA.Vout)) return TripSOAVout;
+        if (isInSOAStartup(sensors.Vin, SOA.Vin)) return TripSOAVin;
         break;
     default:
         if (isInSOAStartup(sensors.Iout, SOA.Iout)) return TripOC;
