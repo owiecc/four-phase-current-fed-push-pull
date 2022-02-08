@@ -41,6 +41,11 @@ void initDSP(void)
     GpioCtrlRegs.GPAMUX2.bit.GPIO31 = 0; // GPIO
     GpioCtrlRegs.GPADIR.bit.GPIO31 = 1;  // output
 
+    // Soft-start relay
+    GpioCtrlRegs.GPAPUD.bit.GPIO34 = 0;  // Relay on
+    GpioCtrlRegs.GPAMUX2.bit.GPIO34 = 0; // GPIO
+    GpioCtrlRegs.GPADIR.bit.GPIO34 = 1;  // output
+
     // Button inputs
     GpioCtrlRegs.GPBCTRL.bit.QUALPRD0 = 1; // Qual period = SYSCLKOUT/2
     GpioCtrlRegs.GPBDIR.bit.GPIO39 = 0;    // input
