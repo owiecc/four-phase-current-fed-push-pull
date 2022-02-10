@@ -26,7 +26,7 @@ void main(void)
         {
             initDSP(); // Configure GPIO, ADC, PWM
             // TODO Turn the Vclamp controller off
-            // TODO Turn the current controller off
+            // TODO Turn the Iout controller off
             converter_state = StateStandby;
             break;
         }
@@ -50,13 +50,14 @@ void main(void)
         }
         case StateOn:
         {
-            // TODO Turn the current controller on
+            // TODO Turn the Iout controller on
             // TODO Set reference current
             break;
         }
         case StateShutdown:
         {
-            relayOff(); // TODO Ramp current down to zero first
+            relayOff();
+            // TODO Set reference current to zero
             break;
         }
         case StateTrip:
