@@ -188,10 +188,9 @@ void initEPWM(unsigned int PWMPeriodHalf)
     EPwm7Regs.DBFED.bit.DBFED = 20;     // 200ns
     EPwm7Regs.DBRED.bit.DBRED = 20;     // 200ns
 
-    /*
     // PWM8 configuration
     EPwm8Regs.TBPRD = 2*PWMPeriodHalf;// Set period to ~40kHz
-    EPwm8Regs.CMPA.bit.CMPA = 2*PWM_PRD_QUARTER; // Set compare A value to 50%
+    EPwm8Regs.CMPA.bit.CMPA = PWMPeriodHalf; // Set compare A value to 50%
     EPwm8Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm8Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm8Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
@@ -199,7 +198,7 @@ void initEPWM(unsigned int PWMPeriodHalf)
     EPwm8Regs.TBCTL.bit.CLKDIV = 0;
     EPwm8Regs.TBCTR = 0;
     EPwm8Regs.TBPHS.bit.TBPHS = PWMPeriodHalf; // 0.5π phase delay
-    EPwm8Regs.EPWMSYNCINSEL.bit.SEL = 7 // Sync to PWM7
+    EPwm8Regs.EPWMSYNCINSEL.bit.SEL = 7; // Sync to PWM7
     EPwm8Regs.CMPCTL.bit.SHDWAMODE = 0;
     EPwm8Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
     EPwm8Regs.AQCTLA.bit.CAU = 2;       // High on counter up
@@ -210,6 +209,6 @@ void initEPWM(unsigned int PWMPeriodHalf)
     EPwm8Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
     EPwm8Regs.DBFED.bit.DBFED = 20;     // 200ns
     EPwm8Regs.DBRED.bit.DBRED = 20;     // 200ns
-    */
+
     EDIS;
 }
