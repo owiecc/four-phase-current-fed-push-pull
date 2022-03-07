@@ -1,7 +1,7 @@
 
 #include "init.h"
 #include "f28x_project.h"
-#include "f28002x_device.h"
+#include "f28003x_device.h"
 #include "controller.h"
 #include "pwm.h"
 #include "adc.h"

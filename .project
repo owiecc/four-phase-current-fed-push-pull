@@ -26,94 +26,84 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>Libraries/f28002x_adc.c</name>
+			<name>Libraries/f28003x_adc.c</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_adc.c</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_adc.c</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_codestartbranch.asm</name>
+			<name>Libraries/f28003x_codestartbranch.asm</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_codestartbranch.asm</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_codestartbranch.asm</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_cputimers.c</name>
+			<name>Libraries/f28003x_cputimers.c</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_cputimers.c</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_cputimers.c</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_dbgier.asm</name>
+			<name>Libraries/f28003x_dbgier.asm</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_dbgier.asm</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_dbgier.asm</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_dcsm_z1otp.asm</name>
+			<name>Libraries/f28003x_defaultisr.c</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_dcsm_z1otp.asm</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_defaultisr.c</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_dcsm_z2otp.asm</name>
+			<name>Libraries/f28003x_dma.c</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_dcsm_z2otp.asm</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_dma.c</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_defaultisr.c</name>
+			<name>Libraries/f28003x_epwm.c</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_defaultisr.c</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_epwm.c</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_dma.c</name>
+			<name>Libraries/f28003x_globalvariabledefs.c</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_dma.c</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/headers/source/f28003x_globalvariabledefs.c</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_epwm.c</name>
+			<name>Libraries/f28003x_gpio.c</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_epwm.c</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_gpio.c</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_globalvariabledefs.c</name>
+			<name>Libraries/f28003x_headers_nonbios.cmd</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/headers/source/f28002x_globalvariabledefs.c</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/headers/cmd/f28003x_headers_nonbios.cmd</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_gpio.c</name>
+			<name>Libraries/f28003x_piectrl.c</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_gpio.c</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_piectrl.c</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_headers_nonbios.cmd</name>
+			<name>Libraries/f28003x_pievect.c</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/headers/cmd/f28002x_headers_nonbios.cmd</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_pievect.c</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_piectrl.c</name>
+			<name>Libraries/f28003x_spi.c</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_piectrl.c</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_spi.c</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_pievect.c</name>
+			<name>Libraries/f28003x_sysctrl.c</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_pievect.c</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_sysctrl.c</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_spi.c</name>
+			<name>Libraries/f28003x_tempsensorconv.c</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_spi.c</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_tempsensorconv.c</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28002x_sysctrl.c</name>
+			<name>Libraries/f28003x_usdelay.asm</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_sysctrl.c</locationURI>
-		</link>
-		<link>
-			<name>Libraries/f28002x_tempsensorconv.c</name>
-			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_tempsensorconv.c</locationURI>
-		</link>
-		<link>
-			<name>Libraries/f28002x_usdelay.asm</name>
-			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28002x/common/source/f28002x_usdelay.asm</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_usdelay.asm</locationURI>
 		</link>
 	</linkedResources>
 	<variableList>
