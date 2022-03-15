@@ -1,4 +1,5 @@
 
+#include "iir_filter.h"
 #include "controller.h"
 #include "f28x_project.h"
 
@@ -49,6 +50,14 @@ __interrupt void adcA1ISR(void)
     // GpioDataRegs.GPATOGGLE.bit.GPIO22 = 1;
     // ADCRESULT0 is the result register of SOC0
     // AdcaResultRegs.ADCRESULT0;
+
+
+    // static struct iirFilter Vclamp = {{6.3014,-11.4257,5.13},{1.0,-1.1429,0.1429},{0,0},{0,0}}; // init a d-axis PI controller
+    // static struct iirFilter Iout = {{6.3014,-11.4257,5.13},{1.0,-1.1429,0.1429},{0,0},{0,0}}; // init a q-axis PI controller
+
+
+
+
 
     AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Clear the interrupt flag
 

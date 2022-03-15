@@ -25,6 +25,12 @@ int isInSOAOn(float, struct OPLimits);
 int isInSOAStartup(float, struct OPLimits);
 enum trip_reasons isInSOA(struct ADCResult, enum converter_states);
 
+void enableControllerVclamp(void);
+void disableControllerVclamp(void);
+
+void enableControllerVclamp(void);
+void disableControllerVclamp(void);
+
 __interrupt void adcA1ISR(void);
 
 #endif /* CONTROLLER_H_ */
