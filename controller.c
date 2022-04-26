@@ -1,7 +1,20 @@
 
-#include "iir_filter.h"
+#include "PI_controller.h"
 #include "controller.h"
 #include "f28x_project.h"
+
+#define FSW 40000;
+#define PI_Vc_Ki 0.05;
+#define PI_Io_Ki 0.10;
+
+struct piController PI_Vc;
+struct piController PI_Io;
+
+void initPIs(void)
+{
+    PI_Vc = initPI(PI_Vc_Ki/FSW, 2*PI_Vc_Ki/FSW, 0.5, -1, 0.99);
+    PI_Io = initPI(PI_Io_Ki/FSW, 2*PI_Io_Ki/FSW, 0.5, -1, 0.00);
+}
 
 struct OPLimitsConverter SOA = {
     .Vin =    (struct OPLimits) {.tripHi =  840, .startupHi =  820, .startupLo =  780, .tripLo = 720 },
