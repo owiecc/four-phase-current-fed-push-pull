@@ -21,6 +21,8 @@ struct OPLimitsConverter {
     struct OPLimits Iout;
 };
 
+void initPIConttrollers(void);
+
 int isInSOAOn(float, struct OPLimits);
 int isInSOAStartup(float, struct OPLimits);
 enum trip_reasons isInSOA(struct ADCResult, enum converter_states);
