@@ -2,6 +2,13 @@
 #include "pwm.h"
 #include "f28x_project.h"
 
+void updateModulator(float d, float phase)
+{
+    Uint16 cmp = 2*PWM_PRD_HALF*d;
+    int ph = 2*PWM_PRD_HALF*phase;
+    updateEPWM(cmp, cmp, ph);
+}
+
 // initEPWM - Function to configure ePWM1 to generate the SOC.
 void updateEPWM(unsigned int cmpIn, unsigned int cmpOut, int phaseShiftInOut)
 {

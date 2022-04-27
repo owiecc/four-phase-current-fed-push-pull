@@ -2,6 +2,7 @@
 #include "PI_controller.h"
 #include "controller.h"
 #include "f28x_project.h"
+#include "pwm.h"
 
 #define n1 14
 #define n2 21
@@ -75,6 +76,8 @@ __interrupt void adcA1ISR(void)
 
     float d = updatePI(&PI_Vc, errVclamp);
     float p = updatePI(&PI_Io, errIout);
+
+    updateModulator(d, p);
 
     AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Clear the interrupt flag
 
