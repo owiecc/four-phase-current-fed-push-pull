@@ -3,9 +3,9 @@
 #include "controller.h"
 #include "f28x_project.h"
 
-#define FSW 40000;
-#define PI_Vc_Ki 0.05;
-#define PI_Io_Ki 0.10;
+#define FSW 40000
+#define PI_Vc_Ki 0.05
+#define PI_Io_Ki 0.10
 
 struct piController PI_Vc;
 struct piController PI_Io;
