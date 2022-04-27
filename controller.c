@@ -3,12 +3,17 @@
 #include "controller.h"
 #include "f28x_project.h"
 
+#define n1 14
+#define n2 21
+#define N n1/n2
 #define FSW 40000
 #define PI_Vc_Ki 0.05
 #define PI_Io_Ki 0.10
 
 static struct piController PI_Vc = {0, 0, 0, 0, 0}; // Vclamp controller
 static struct piController PI_Io = {0, 0, 0, 0, 0}; // Iout controller
+
+static float refIo = 0;
 
 struct OPLimitsConverter SOA = {
     .Vin =    (struct OPLimits) {.tripHi =  840, .startupHi =  820, .startupLo =  780, .tripLo = 720 },
@@ -62,6 +67,14 @@ __interrupt void adcA1ISR(void)
 {
     // GpioDataRegs.GPATOGGLE.bit.GPIO22 = 1;
 
+    struct ADCResult meas = scaleADCs();
+
+    float deltaVclamp = 0;
+    float errVclamp = meas.Vclamp - meas.Vin/N - deltaVclamp;
+    float errIout = refIo - meas.Iout;
+
+    float d = updatePI(&PI_Vc, errVclamp);
+    float p = updatePI(&PI_Io, errIout);
 
     AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Clear the interrupt flag
 
