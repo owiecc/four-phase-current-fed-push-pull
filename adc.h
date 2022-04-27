@@ -24,6 +24,7 @@ struct ADCResult {
 void initADC(void);
 void initADCSOC(void);
 float scaleADC(unsigned int, struct ADCScaling);
+struct ADCResult scaleADCs(void);
 struct ADCResult readADC(void);
 
 #endif /* ADC_H_ */

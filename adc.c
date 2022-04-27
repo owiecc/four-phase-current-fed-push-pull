@@ -15,18 +15,21 @@ struct ADCResult readADC(void)
 
     while (AdcaRegs.ADCINTFLG.bit.ADCINT1 != 1) {} // Wait for conversion to finish
 
-    ; // Vin
-    AdcaResultRegs.ADCRESULT1; // Vout
-    AdcaResultRegs.ADCRESULT2; // Vclamp
-    AdcaResultRegs.ADCRESULT3; // Iout
+    struct ADCResult adcOut;
+    adcOut = scaleADCs();
 
+    AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Clear the interrupt flag
+
+    return adcOut;
+}
+
+inline struct ADCResult scaleADCs(void)
+{
     struct ADCResult adcOut;
     adcOut.Vin = scaleADC(AdcaResultRegs.ADCRESULT0, ADCCal.coeffACD0);
     adcOut.Vout = scaleADC(AdcaResultRegs.ADCRESULT1, ADCCal.coeffACD1);
     adcOut.Vclamp = scaleADC(AdcaResultRegs.ADCRESULT2, ADCCal.coeffACD2);
     adcOut.Iout = scaleADC(AdcaResultRegs.ADCRESULT3, ADCCal.coeffACD3);
-
-    AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Clear the interrupt flag
 
     return adcOut;
 }
