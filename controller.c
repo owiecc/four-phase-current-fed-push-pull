@@ -7,14 +7,8 @@
 #define PI_Vc_Ki 0.05
 #define PI_Io_Ki 0.10
 
-struct piController PI_Vc;
-struct piController PI_Io;
-
-void initPIs(void)
-{
-    PI_Vc = initPI(PI_Vc_Ki/FSW, 2*PI_Vc_Ki/FSW, 0.5, -1, 0.99);
-    PI_Io = initPI(PI_Io_Ki/FSW, 2*PI_Io_Ki/FSW, 0.5, -1, 0.00);
-}
+static struct piController PI_Vc = {0, 0, 0, 0, 0}; // Vclamp controller
+static struct piController PI_Io = {0, 0, 0, 0, 0}; // Iout controller
 
 struct OPLimitsConverter SOA = {
     .Vin =    (struct OPLimits) {.tripHi =  840, .startupHi =  820, .startupLo =  780, .tripLo = 720 },
@@ -57,19 +51,16 @@ enum trip_reasons isInSOA(struct ADCResult sensors, enum converter_states cs)
     return NoTrip;
 }
 
+void initPIConttrollers(void)
+{
+    PI_Vc = initPI(PI_Vc_Ki/FSW, 2*PI_Vc_Ki/FSW, 0.5, -1, 0.99);
+    PI_Io = initPI(PI_Io_Ki/FSW, 2*PI_Io_Ki/FSW, 0.5, -1, 0.99);
+}
+
 // adcA1ISR - ADC A Interrupt 1 ISR
 __interrupt void adcA1ISR(void)
 {
     // GpioDataRegs.GPATOGGLE.bit.GPIO22 = 1;
-    // ADCRESULT0 is the result register of SOC0
-    // AdcaResultRegs.ADCRESULT0;
-
-
-    // static struct iirFilter Vclamp = {{6.3014,-11.4257,5.13},{1.0,-1.1429,0.1429},{0,0},{0,0}}; // init a d-axis PI controller
-    // static struct iirFilter Iout = {{6.3014,-11.4257,5.13},{1.0,-1.1429,0.1429},{0,0},{0,0}}; // init a q-axis PI controller
-
-
-
 
 
     AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Clear the interrupt flag
