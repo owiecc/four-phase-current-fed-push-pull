@@ -25,6 +25,7 @@ void main(void)
         case StateInitDSP:
         {
             initDSP(); // Configure GPIO, ADC, PWM
+            initPIConttrollers(); // Initialize PI controllers
             // TODO Turn the Vclamp controller off
             // TODO Turn the Iout controller off
             converter_state = StateStandby;
