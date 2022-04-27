@@ -15,7 +15,7 @@ void updateEPWM(unsigned int cmpIn, unsigned int cmpOut, int phaseShiftInOut)
     EPwm5Regs.CMPA.bit.CMPA = cmpOut;
     EPwm6Regs.CMPA.bit.CMPA = cmpOut;
     EPwm7Regs.CMPA.bit.CMPA = cmpOut;
-    //EPwm8Regs.CMPA.bit.CMPA = cmpOut;
+    EPwm8Regs.CMPA.bit.CMPA = cmpOut;
 
     // Set phase delay for output bridge
     EPwm5Regs.TBCTL.bit.PHSDIR = phaseShiftInOut > 0 ? 1 : 0; // Count up on positive shift and down on negative
