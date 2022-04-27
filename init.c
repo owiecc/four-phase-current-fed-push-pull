@@ -77,7 +77,7 @@ void initDSP(void)
     EDIS;
 
     initADC(); // Configure the ADC and power it up
-    initEPWM(PWM_PRD_HALF); // Configure the ePWM
+    initEPWM(); // Configure the ePWM
     initADCSOC(); // Setup the ADC for ePWM triggered conversions on channel 1
 
     // Enable global Interrupts and higher priority real-time debug events:

@@ -4,8 +4,8 @@
 
 void updateModulator(float d, float phase)
 {
-    Uint16 cmp = 2*PWM_PRD_HALF*d;
-    int ph = 2*PWM_PRD_HALF*phase;
+    Uint16 cmp = PWM_PRD_HALF*d;
+    int ph = PWM_PRD_HALF*phase;
     updateEPWM(cmp, cmp, ph);
 }
 
@@ -30,12 +30,12 @@ void updateEPWM(unsigned int cmpIn, unsigned int cmpOut, int phaseShiftInOut)
 }
 
 // initEPWM - Function to configure ePWM1 to generate the SOC.
-void initEPWM(unsigned int PWMPeriodHalf)
+void initEPWM(void)
 {
     EALLOW;
     // PWM1 configuration
-    EPwm1Regs.TBPRD = 2*PWMPeriodHalf; // Set period to ~40kHz
-    EPwm1Regs.CMPA.bit.CMPA = PWMPeriodHalf; // Set compare A value to 50%
+    EPwm1Regs.TBPRD = PWM_PRD_HALF; // Set period to ~40kHz
+    EPwm1Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER ; // Set compare A value to 50%
     EPwm1Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm1Regs.TBCTL.bit.PHSEN = 0;      // Master module
     EPwm1Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
@@ -59,15 +59,15 @@ void initEPWM(unsigned int PWMPeriodHalf)
     EPwm1Regs.ETPS.bit.SOCAPRD = 1;     // Generate pulse on 1st event
 
     // PWM2 configuration
-    EPwm2Regs.TBPRD = 2*PWMPeriodHalf;// Set period to ~40kHz
-    EPwm2Regs.CMPA.bit.CMPA = PWMPeriodHalf; // Set compare A value to 50%
+    EPwm2Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
+    EPwm2Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
     EPwm2Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm2Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm2Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
     EPwm2Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
     EPwm2Regs.TBCTL.bit.CLKDIV = 0;
     EPwm2Regs.TBCTR = 0;
-    EPwm2Regs.TBPHS.bit.TBPHS = PWMPeriodHalf; // π/2 phase delay
+    EPwm2Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // π/2 phase delay
     EPwm2Regs.EPWMSYNCINSEL.bit.SEL = 1; // Sync to PWM1
     EPwm2Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
     EPwm2Regs.CMPCTL.bit.SHDWAMODE = 0;
@@ -82,15 +82,15 @@ void initEPWM(unsigned int PWMPeriodHalf)
     EPwm2Regs.DBRED.bit.DBRED = 20;     // 200ns
 
     // PWM3 configuration
-    EPwm3Regs.TBPRD = 2*PWMPeriodHalf;// Set period to ~40kHz
-    EPwm3Regs.CMPA.bit.CMPA = PWMPeriodHalf; // Set compare A value to 50%
+    EPwm3Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
+    EPwm3Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
     EPwm3Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm3Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm3Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
     EPwm3Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
     EPwm3Regs.TBCTL.bit.CLKDIV = 0;
     EPwm3Regs.TBCTR = 0;
-    EPwm3Regs.TBPHS.bit.TBPHS = PWMPeriodHalf; // π/2 phase delay
+    EPwm3Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // π/2 phase delay
     EPwm3Regs.EPWMSYNCINSEL.bit.SEL = 2; // Sync to PWM2
     EPwm3Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
     EPwm3Regs.CMPCTL.bit.SHDWAMODE = 0;
@@ -105,15 +105,15 @@ void initEPWM(unsigned int PWMPeriodHalf)
     EPwm3Regs.DBRED.bit.DBRED = 20;     // 200ns
 
     // PWM4 configuration
-    EPwm4Regs.TBPRD = 2*PWMPeriodHalf;// Set period to ~40kHz
-    EPwm4Regs.CMPA.bit.CMPA = PWMPeriodHalf; // Set compare A value to 50%
+    EPwm4Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
+    EPwm4Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
     EPwm4Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm4Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm4Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
     EPwm4Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
     EPwm4Regs.TBCTL.bit.CLKDIV = 0;
     EPwm4Regs.TBCTR = 0;
-    EPwm4Regs.TBPHS.bit.TBPHS = PWMPeriodHalf; // π/2 phase delay
+    EPwm4Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // π/2 phase delay
     EPwm4Regs.EPWMSYNCINSEL.bit.SEL = 3; // Sync to PWM3
     EPwm4Regs.CMPCTL.bit.SHDWAMODE = 0;
     EPwm4Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
@@ -127,8 +127,8 @@ void initEPWM(unsigned int PWMPeriodHalf)
     EPwm4Regs.DBRED.bit.DBRED = 20;     // 200ns
 
     // PWM5 configuration
-    EPwm5Regs.TBPRD = 2*PWMPeriodHalf;// Set period to ~40kHz
-    EPwm5Regs.CMPA.bit.CMPA = PWMPeriodHalf; // Set compare A value to 50%
+    EPwm5Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
+    EPwm5Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
     EPwm5Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm5Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm5Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
@@ -151,14 +151,14 @@ void initEPWM(unsigned int PWMPeriodHalf)
 
     // PWM6 configuration
     EPwm6Regs.TBPRD = 1248;             // Set period to ~40kHz
-    EPwm6Regs.CMPA.bit.CMPA = PWMPeriodHalf; // Set compare A value to 50%
+    EPwm6Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
     EPwm6Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm6Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm6Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
     EPwm6Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
     EPwm6Regs.TBCTL.bit.CLKDIV = 0;
     EPwm6Regs.TBCTR = 0;
-    EPwm6Regs.TBPHS.bit.TBPHS = PWMPeriodHalf; // 0.5π phase delay
+    EPwm6Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // 0.5π phase delay
     EPwm6Regs.EPWMSYNCINSEL.bit.SEL = 5; // Sync to PWM5
     EPwm6Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
     EPwm6Regs.CMPCTL.bit.SHDWAMODE = 0;
@@ -173,15 +173,15 @@ void initEPWM(unsigned int PWMPeriodHalf)
     EPwm6Regs.DBRED.bit.DBRED = 20;     // 200ns
 
     // PWM7 configuration
-    EPwm7Regs.TBPRD = 2*PWMPeriodHalf;// Set period to ~40kHz
-    EPwm7Regs.CMPA.bit.CMPA = PWMPeriodHalf; // Set compare A value to 50%
+    EPwm7Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
+    EPwm7Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
     EPwm7Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm7Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm7Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
     EPwm7Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
     EPwm7Regs.TBCTL.bit.CLKDIV = 0;
     EPwm7Regs.TBCTR = 0;
-    EPwm7Regs.TBPHS.bit.TBPHS = PWMPeriodHalf; // 0.5π phase delay
+    EPwm7Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // 0.5π phase delay
     EPwm7Regs.EPWMSYNCINSEL.bit.SEL = 6; // Sync to PWM6
     EPwm7Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
     EPwm7Regs.CMPCTL.bit.SHDWAMODE = 0;
@@ -196,15 +196,15 @@ void initEPWM(unsigned int PWMPeriodHalf)
     EPwm7Regs.DBRED.bit.DBRED = 20;     // 200ns
 
     // PWM8 configuration
-    EPwm8Regs.TBPRD = 2*PWMPeriodHalf;// Set period to ~40kHz
-    EPwm8Regs.CMPA.bit.CMPA = PWMPeriodHalf; // Set compare A value to 50%
+    EPwm8Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
+    EPwm8Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
     EPwm8Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm8Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm8Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
     EPwm8Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
     EPwm8Regs.TBCTL.bit.CLKDIV = 0;
     EPwm8Regs.TBCTR = 0;
-    EPwm8Regs.TBPHS.bit.TBPHS = PWMPeriodHalf; // 0.5π phase delay
+    EPwm8Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // 0.5π phase delay
     EPwm8Regs.EPWMSYNCINSEL.bit.SEL = 7; // Sync to PWM7
     EPwm8Regs.CMPCTL.bit.SHDWAMODE = 0;
     EPwm8Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
