@@ -219,3 +219,30 @@ void initEPWM(void)
 
     EDIS;
 }
+
+void disablePWM(void) {
+    EALLOW;
+    EPwm1Regs.TZFRC.bit.OST = 0x1;
+    EPwm2Regs.TZFRC.bit.OST = 0x1;
+    EPwm3Regs.TZFRC.bit.OST = 0x1;
+    EPwm4Regs.TZFRC.bit.OST = 0x1;
+    EPwm5Regs.TZFRC.bit.OST = 0x1;
+    EPwm6Regs.TZFRC.bit.OST = 0x1;
+    EPwm7Regs.TZFRC.bit.OST = 0x1;
+    EPwm8Regs.TZFRC.bit.OST = 0x1;
+    EDIS;
+}
+
+void enablePWM(void) {
+    EALLOW;
+    EPwm1Regs.TZCLR.bit.OST = 0x1;
+    EPwm2Regs.TZCLR.bit.OST = 0x1;
+    EPwm3Regs.TZCLR.bit.OST = 0x1;
+    EPwm4Regs.TZCLR.bit.OST = 0x1;
+    EPwm5Regs.TZCLR.bit.OST = 0x1;
+    EPwm6Regs.TZCLR.bit.OST = 0x1;
+    EPwm7Regs.TZCLR.bit.OST = 0x1;
+    EPwm8Regs.TZCLR.bit.OST = 0x1;
+    EDIS;
+}
+

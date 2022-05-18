@@ -10,5 +10,7 @@
 void updateModulator(float, float);
 void initEPWM(void);
 void updateEPWM(unsigned int, unsigned int, int);
+void disablePWM(void);
+void enablePWM(void);
 
 #endif /* PWM_H_ */
