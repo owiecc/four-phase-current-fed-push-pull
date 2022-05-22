@@ -60,7 +60,7 @@ enum trip_reasons isInSOA(struct ADCResult sensors, enum converter_states cs)
 void initPIConttrollers(void)
 {
     PI_Vc = initPI(PI_Vc_Ki/FSW, 2*PI_Vc_Ki/FSW, 0.5, -1, 0.99);
-    PI_Io = initPI(PI_Io_Ki/FSW, 2*PI_Io_Ki/FSW, 0.5, -1, 0.99);
+    PI_Io = initPI(PI_Io_Ki/FSW, 2*PI_Io_Ki/FSW, 0.5, -1, 0.00);
 }
 
 // adcA1ISR - ADC A Interrupt 1 ISR
