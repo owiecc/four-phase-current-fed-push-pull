@@ -35,7 +35,7 @@ void initEPWM(void)
     EALLOW;
     // PWM1 configuration
     EPwm1Regs.TBPRD = PWM_PRD_HALF; // Set period to ~40kHz
-    EPwm1Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER ; // Set compare A value to 50%
+    EPwm1Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
     EPwm1Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm1Regs.TBCTL.bit.PHSEN = 0;      // Master module
     EPwm1Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
@@ -60,7 +60,7 @@ void initEPWM(void)
 
     // PWM2 configuration
     EPwm2Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
-    EPwm2Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
+    EPwm2Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
     EPwm2Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm2Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm2Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
@@ -83,7 +83,7 @@ void initEPWM(void)
 
     // PWM3 configuration
     EPwm3Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
-    EPwm3Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
+    EPwm3Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
     EPwm3Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm3Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm3Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
@@ -106,7 +106,7 @@ void initEPWM(void)
 
     // PWM4 configuration
     EPwm4Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
-    EPwm4Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
+    EPwm4Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
     EPwm4Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm4Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm4Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
@@ -129,7 +129,7 @@ void initEPWM(void)
 
     // PWM5 configuration
     EPwm5Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
-    EPwm5Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
+    EPwm5Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
     EPwm5Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm5Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm5Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
@@ -151,8 +151,8 @@ void initEPWM(void)
     EPwm5Regs.DBRED.bit.DBRED = 20;     // 200ns
 
     // PWM6 configuration
-    EPwm6Regs.TBPRD = PWM_PRD_HALF;             // Set period to ~40kHz
-    EPwm6Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
+    EPwm6Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
+    EPwm6Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
     EPwm6Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm6Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm6Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
@@ -175,7 +175,7 @@ void initEPWM(void)
 
     // PWM7 configuration
     EPwm7Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
-    EPwm7Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
+    EPwm7Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
     EPwm7Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm7Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm7Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
@@ -198,7 +198,7 @@ void initEPWM(void)
 
     // PWM8 configuration
     EPwm8Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
-    EPwm8Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
+    EPwm8Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
     EPwm8Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm8Regs.TBCTL.bit.PHSEN = 1;      // Slave module
     EPwm8Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
