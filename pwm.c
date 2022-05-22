@@ -4,8 +4,8 @@
 
 void updateModulator(float d, float phase)
 {
-    Uint16 cmp = PWM_PRD_HALF*d;
-    int ph = PWM_PRD_HALF*phase;
+    Uint16 cmp = PWM_PRD_HALF*(1-d);
+    int ph = -PWM_PRD*phase;
     updateEPWM(cmp, cmp, ph);
 }
 
