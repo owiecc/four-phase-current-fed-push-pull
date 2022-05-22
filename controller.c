@@ -6,7 +6,8 @@
 
 #define n1 14
 #define n2 21
-#define N n1/n2
+#define N ((float)n1/(float)n2)
+#define Ninv ((float)n2/(float)n1)
 #define FSW 40000
 #define PI_Vc_Ki 0.05
 #define PI_Io_Ki 0.10
@@ -71,10 +72,10 @@ __interrupt void adcA1ISR(void)
     struct ADCResult meas = scaleADCs();
 
     float deltaVclamp = 0;
-    float errVclamp = meas.Vclamp - meas.Vin/N - deltaVclamp;
+    float errVclamp = meas.Vin*Ninv + deltaVclamp - meas.Vclamp;
     float errIout = refIo - meas.Iout;
 
-    float d = updatePI(&PI_Vc, errVclamp);
+    float d = updatePI(&PI_Vc, -errVclamp);
     float p = updatePI(&PI_Io, errIout);
 
     updateModulator(d, p);
