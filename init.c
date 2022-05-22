@@ -48,18 +48,18 @@ void initDSP(void)
 
     // Button inputs
     GpioCtrlRegs.GPBCTRL.bit.QUALPRD0 = 1; // Qual period = SYSCLKOUT/2
-    GpioCtrlRegs.GPBDIR.bit.GPIO39 = 0;    // input
-    GpioCtrlRegs.GPBQSEL1.bit.GPIO39 = 2;  // 6 samples
-    GpioCtrlRegs.GPBDIR.bit.GPIO42 = 0;    // input
-    GpioCtrlRegs.GPBQSEL1.bit.GPIO42 = 2;  // 6 samples
-    GpioCtrlRegs.GPBDIR.bit.GPIO43 = 0;    // input
-    GpioCtrlRegs.GPBQSEL1.bit.GPIO43 = 2;  // 6 samples
-    GpioCtrlRegs.GPBDIR.bit.GPIO44 = 0;    // input
-    GpioCtrlRegs.GPBQSEL1.bit.GPIO44 = 2;  // 6 samples
-    GpioCtrlRegs.GPBDIR.bit.GPIO45 = 0;    // input
-    GpioCtrlRegs.GPBQSEL1.bit.GPIO45 = 2;  // 6 samples
-    GpioCtrlRegs.GPBDIR.bit.GPIO46 = 0;    // input
-    GpioCtrlRegs.GPBQSEL1.bit.GPIO46 = 2;  // 6 samples
+    GpioCtrlRegs.GPBDIR.bit.GPIO40 = 0;    // input
+    GpioCtrlRegs.GPBQSEL1.bit.GPIO40 = 2;  // 6 samples
+    GpioCtrlRegs.GPBDIR.bit.GPIO49 = 0;    // input
+    GpioCtrlRegs.GPBQSEL2.bit.GPIO49 = 2;  // 6 samples
+    GpioCtrlRegs.GPBDIR.bit.GPIO51 = 0;    // input
+    GpioCtrlRegs.GPBQSEL2.bit.GPIO51 = 2;  // 6 samples
+    GpioCtrlRegs.GPBDIR.bit.GPIO48 = 0;    // input
+    GpioCtrlRegs.GPBQSEL2.bit.GPIO48 = 2;  // 6 samples
+    GpioCtrlRegs.GPBDIR.bit.GPIO50 = 0;    // input
+    GpioCtrlRegs.GPBQSEL2.bit.GPIO50 = 2;  // 6 samples
+    GpioCtrlRegs.GPBDIR.bit.GPIO52 = 0;    // input
+    GpioCtrlRegs.GPBQSEL2.bit.GPIO52 = 2;  // 6 samples
     EDIS;
 
     DINT; // Disable global interrupt INTM
