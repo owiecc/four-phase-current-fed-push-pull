@@ -71,9 +71,9 @@
 			<locationURI>C2000WARE/device_support/f28003x/common/source/f28003x_gpio.c</locationURI>
 		</link>
 		<link>
-			<name>Libraries/f28003x_headers_nonbios.cmd</name>
+			<name>Libraries/f28003x_headers_nonBIOS.cmd</name>
 			<type>1</type>
-			<locationURI>C2000WARE/device_support/f28003x/headers/cmd/f28003x_headers_nonbios.cmd</locationURI>
+			<locationURI>C2000WARE/device_support/f28003x/headers/cmd/f28003x_headers_nonBIOS.cmd</locationURI>
 		</link>
 		<link>
 			<name>Libraries/f28003x_piectrl.c</name>
