@@ -15,18 +15,18 @@ void updateEPWM(unsigned int cmpIn, unsigned int cmpOut, int phaseShiftInOut)
     // Set compare A values for input bridge
     EPwm1Regs.CMPA.bit.CMPA = cmpIn;
     EPwm2Regs.CMPA.bit.CMPA = cmpIn;
-    EPwm3Regs.CMPA.bit.CMPA = cmpIn;
-    EPwm4Regs.CMPA.bit.CMPA = cmpIn;
+    EPwm5Regs.CMPA.bit.CMPA = cmpIn;
+    EPwm6Regs.CMPA.bit.CMPA = cmpIn;
 
     // Set compare A values for output bridge
-    EPwm5Regs.CMPA.bit.CMPA = cmpOut;
-    EPwm6Regs.CMPA.bit.CMPA = cmpOut;
+    EPwm3Regs.CMPA.bit.CMPA = cmpOut;
+    EPwm4Regs.CMPA.bit.CMPA = cmpOut;
     EPwm7Regs.CMPA.bit.CMPA = cmpOut;
     EPwm8Regs.CMPA.bit.CMPA = cmpOut;
 
     // Set phase delay for output bridge
-    EPwm5Regs.TBCTL.bit.PHSDIR = phaseShiftInOut > 0 ? 1 : 0; // Count up on positive shift and down on negative
-    EPwm5Regs.TBPHS.bit.TBPHS = abs(phaseShiftInOut); // Θ phase delay w.r.t. PWM1
+    EPwm3Regs.TBCTL.bit.PHSDIR = phaseShiftInOut > 0 ? 1 : 0; // Count up on positive shift and down on negative
+    EPwm3Regs.TBPHS.bit.TBPHS = abs(phaseShiftInOut); // Θ phase delay w.r.t. PWM1
 }
 
 // initEPWM - Function to configure ePWM1 to generate the SOC.
@@ -90,8 +90,8 @@ void initEPWM(void)
     EPwm3Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
     EPwm3Regs.TBCTL.bit.CLKDIV = 0;
     EPwm3Regs.TBCTR = 0;
-    EPwm3Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // π/2 phase delay
-    EPwm3Regs.EPWMSYNCINSEL.bit.SEL = 2; // Sync to PWM2
+    EPwm3Regs.TBPHS.bit.TBPHS = 0;      // zero phase delay
+    EPwm3Regs.EPWMSYNCINSEL.bit.SEL = 1; // Sync to PWM1
     EPwm3Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
     EPwm3Regs.CMPCTL.bit.SHDWAMODE = 0;
     EPwm3Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
@@ -115,6 +115,7 @@ void initEPWM(void)
     EPwm4Regs.TBCTR = 0;
     EPwm4Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // π/2 phase delay
     EPwm4Regs.EPWMSYNCINSEL.bit.SEL = 3; // Sync to PWM3
+    EPwm4Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
     EPwm4Regs.CMPCTL.bit.SHDWAMODE = 0;
     EPwm4Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
     EPwm4Regs.AQCTLA.bit.CAU = 2;       // High on counter up
@@ -135,8 +136,8 @@ void initEPWM(void)
     EPwm5Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
     EPwm5Regs.TBCTL.bit.CLKDIV = 0;
     EPwm5Regs.TBCTR = 0;
-    EPwm5Regs.TBPHS.bit.TBPHS = 0 ;     // no phase delay
-    EPwm5Regs.EPWMSYNCINSEL.bit.SEL = 1; // Sync to PWM1
+    EPwm5Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER ; // π/2 phase delay
+    EPwm5Regs.EPWMSYNCINSEL.bit.SEL = 2; // Sync to PWM2
     EPwm5Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
     EPwm5Regs.CMPCTL.bit.SHDWAMODE = 0;
     EPwm5Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
@@ -150,7 +151,7 @@ void initEPWM(void)
     EPwm5Regs.DBRED.bit.DBRED = 20;     // 200ns
 
     // PWM6 configuration
-    EPwm6Regs.TBPRD = 1248;             // Set period to ~40kHz
+    EPwm6Regs.TBPRD = PWM_PRD_HALF;             // Set period to ~40kHz
     EPwm6Regs.CMPA.bit.CMPA = PWM_PRD_QUARTER; // Set compare A value to 50%
     EPwm6Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
     EPwm6Regs.TBCTL.bit.PHSEN = 1;      // Slave module
@@ -158,7 +159,7 @@ void initEPWM(void)
     EPwm6Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
     EPwm6Regs.TBCTL.bit.CLKDIV = 0;
     EPwm6Regs.TBCTR = 0;
-    EPwm6Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // 0.5π phase delay
+    EPwm6Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // π/2 phase delay
     EPwm6Regs.EPWMSYNCINSEL.bit.SEL = 5; // Sync to PWM5
     EPwm6Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
     EPwm6Regs.CMPCTL.bit.SHDWAMODE = 0;
@@ -181,8 +182,8 @@ void initEPWM(void)
     EPwm7Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
     EPwm7Regs.TBCTL.bit.CLKDIV = 0;
     EPwm7Regs.TBCTR = 0;
-    EPwm7Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // 0.5π phase delay
-    EPwm7Regs.EPWMSYNCINSEL.bit.SEL = 6; // Sync to PWM6
+    EPwm7Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // π/2 phase delay
+    EPwm7Regs.EPWMSYNCINSEL.bit.SEL = 4; // Sync to PWM4
     EPwm7Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
     EPwm7Regs.CMPCTL.bit.SHDWAMODE = 0;
     EPwm7Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
@@ -204,7 +205,7 @@ void initEPWM(void)
     EPwm8Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
     EPwm8Regs.TBCTL.bit.CLKDIV = 0;
     EPwm8Regs.TBCTR = 0;
-    EPwm8Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // 0.5π phase delay
+    EPwm8Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // π/2 phase delay
     EPwm8Regs.EPWMSYNCINSEL.bit.SEL = 7; // Sync to PWM7
     EPwm8Regs.CMPCTL.bit.SHDWAMODE = 0;
     EPwm8Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
