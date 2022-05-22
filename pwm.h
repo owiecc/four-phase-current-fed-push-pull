@@ -3,9 +3,12 @@
 #define PWM_H_
 
 // Defines
-#define PWM_PRD         3000 // Switching period fCPU/fSW = 120M/40k = 3000
-#define PWM_PRD_HALF    1500 //
-#define PWM_PRD_QUARTER  750 //
+#define CPUFREQ 120000000
+#define FSW 40000
+
+#define PWM_PRD CPUFREQ/FSW // Switching period fCPU/fSW = 120M/40k = 3000
+#define PWM_PRD_HALF CPUFREQ/FSW/2
+#define PWM_PRD_QUARTER CPUFREQ/FSW/4
 
 void updateModulator(float, float);
 void initEPWM(void);
