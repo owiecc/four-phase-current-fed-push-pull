@@ -29,12 +29,12 @@ Controller for a four-phase current-fed push-pull topology. Based on a TMDSCNCD2
 
 | Card pin | GPIO    | Net | Function |
 |---------:|:--------|:----|:---------|
-|       89 | GPIO-39 | SW1 | Reference decrease |
-|       99 | GPIO-42 | SW2 | Reference zero |
-|      101 | GPIO-43 | SW3 | Reference increase |
-|      103 | GPIO-44 | SW4 | Off |
-|      105 | GPIO-45 | SW5 | Reset |
-|      107 | GPIO-46 | SW6 | On |
+|       89 | GPIO-40 | SW1 | Reference decrease |
+|       99 | GPIO-49 | SW2 | Reference zero |
+|      101 | GPIO-51 | SW3 | Reference increase |
+|      103 | GPIO-48 | SW4 | Off |
+|      105 | GPIO-50 | SW5 | Reset |
+|      107 | GPIO-52 | SW6 | On |
 
 ### Status LEDs
 
