@@ -46,232 +46,210 @@ void initEPWM(void)
 {
     EALLOW;
     // PWM1 configuration
-    EPwm1Regs.TBPRD = PWM_PRD_HALF; // Set period to ~40kHz
-    EPwm1Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
-    EPwm1Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
-    EPwm1Regs.TBCTL.bit.PHSEN = 0;      // Master module
-    EPwm1Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
-    EPwm1Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
-    EPwm1Regs.TBCTL.bit.CLKDIV = 0;
-    EPwm1Regs.TBCTR = 0;
-    EPwm1Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
-    EPwm1Regs.CMPCTL.bit.SHDWAMODE = 0;
-    EPwm1Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
-    EPwm1Regs.AQCTLA.bit.CAU = 2;       // High on counter up
-    EPwm1Regs.AQCTLA.bit.CAD = 1;       // Low on counter down
-    EPwm1Regs.DBCTL.bit.IN_MODE = 0;    // Channel A input
-    EPwm1Regs.DBCTL.bit.DEDB_MODE = 0;  //
-    EPwm1Regs.DBCTL.bit.POLSEL = 2;     // Active high, complementary
-    EPwm1Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
-    EPwm1Regs.DBFED.bit.DBFED = 20;     // 200ns
-    EPwm1Regs.DBRED.bit.DBRED = 20;     // 200ns
-    EPwm1Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM1A high on trip
-    EPwm1Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM1B low on trip
+    EPwm1Regs.TBPRD = PWM_PRD_HALF;                 // Set period to 40kHz
+    EPwm1Regs.TBCTL.bit.PHSEN = TB_DISABLE;         // Master module
+    EPwm1Regs.TBCTL.bit.PRDLD = TB_SHADOW;          // Shadow register
+    EPwm1Regs.TBCTL.bit.HSPCLKDIV = 0;              // TBCLK = SYSCLK
+    EPwm1Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1;         // Sync out on CTR = 0
+    EPwm1Regs.AQCTLA.bit.CAU = AQ_SET;              // High on counter up
+    EPwm1Regs.AQCTLA.bit.CAD = AQ_CLEAR;            // Low on counter down         //
+    EPwm1Regs.DBCTL.bit.POLSEL = DB_ACTV_HIC;       // Active high, complementary
+    EPwm1Regs.DBCTL.bit.OUT_MODE = 3;               // Channel A controls channel B
+    EPwm1Regs.DBFED.bit.DBFED = 20;                 // 200ns
+    EPwm1Regs.DBRED.bit.DBRED = 20;                 // 200ns
+    EPwm1Regs.TZCTL.bit.TZA = TZ_FORCE_HI;          // EPWM1A high on trip
+    EPwm1Regs.TZCTL.bit.TZB = TZ_FORCE_LO;          // EPWM1B low on trip
 
-    EPwm1Regs.ETSEL.bit.SOCAEN = 1;     // Disable SOC on A group
-    EPwm1Regs.ETSEL.bit.SOCASEL = 1;    // Select SOC on up-count
-    EPwm1Regs.ETPS.bit.SOCAPRD = 1;     // Generate pulse on 1st event
+    EPwm1Regs.ETSEL.bit.SOCAEN = 1;                 // Enable SOC on A group
+    EPwm1Regs.ETSEL.bit.SOCASEL = 1;                // Select SOC on up-count
+    EPwm1Regs.ETPS.bit.SOCAPRD = 1;                 // Generate pulse on 1st event
 
     // PWM2 configuration
-    EPwm2Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
-    EPwm2Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
-    EPwm2Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
-    EPwm2Regs.TBCTL.bit.PHSEN = 1;      // Slave module
-    EPwm2Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
-    EPwm2Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
-    EPwm2Regs.TBCTL.bit.CLKDIV = 0;
-    EPwm2Regs.TBCTR = 0;
-    EPwm2Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // π/2 phase delay
-    EPwm2Regs.EPWMSYNCINSEL.bit.SEL = 1; // Sync to PWM1
-    EPwm2Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
-    EPwm2Regs.CMPCTL.bit.SHDWAMODE = 0;
-    EPwm2Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
-    EPwm2Regs.AQCTLA.bit.CAU = 2;       // High on counter up
-    EPwm2Regs.AQCTLA.bit.CAD = 1;       // Low on counter down
-    EPwm2Regs.DBCTL.bit.IN_MODE = 0;    // Channel A input
-    EPwm2Regs.DBCTL.bit.DEDB_MODE = 0;  //
-    EPwm2Regs.DBCTL.bit.POLSEL = 2;     // Active high, complementary
-    EPwm2Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
-    EPwm2Regs.DBFED.bit.DBFED = 20;     // 200ns
-    EPwm2Regs.DBRED.bit.DBRED = 20;     // 200ns
-    EPwm2Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM2A high on trip
-    EPwm2Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM2B low on trip
+    EPwm2Regs.TBPRD = PWM_PRD_HALF;
+    EPwm2Regs.TBCTL.bit.PHSEN = TB_ENABLE;
+    EPwm2Regs.TBCTL.bit.PRDLD = TB_SHADOW;
+    EPwm2Regs.TBCTL.bit.HSPCLKDIV = 0;
+    EPwm2Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER;    // π/2 phase delay
+    EPwm2Regs.EPWMSYNCINSEL.bit.SEL = 1;            // Sync to PWM1
+    EPwm2Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1;
+    EPwm2Regs.AQCTLA.bit.CAU = AQ_SET;
+    EPwm2Regs.AQCTLA.bit.CAD = AQ_CLEAR;
+    EPwm2Regs.DBCTL.bit.POLSEL = DB_ACTV_HIC;
+    EPwm2Regs.DBCTL.bit.OUT_MODE = 3;
+    EPwm2Regs.DBFED.bit.DBFED = 20;
+    EPwm2Regs.DBRED.bit.DBRED = 20;
+    EPwm2Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm2Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
 
     // PWM3 configuration
-    EPwm3Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
-    EPwm3Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
-    EPwm3Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
-    EPwm3Regs.TBCTL.bit.PHSEN = 1;      // Slave module
-    EPwm3Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
-    EPwm3Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
-    EPwm3Regs.TBCTL.bit.CLKDIV = 0;
-    EPwm3Regs.TBCTR = 0;
-    EPwm3Regs.TBPHS.bit.TBPHS = 0;      // zero phase delay
-    EPwm3Regs.EPWMSYNCINSEL.bit.SEL = 1; // Sync to PWM1
-    EPwm3Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
-    EPwm3Regs.CMPCTL.bit.SHDWAMODE = 0;
-    EPwm3Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
-    EPwm3Regs.AQCTLA.bit.CAU = 2;       // High on counter up
-    EPwm3Regs.AQCTLA.bit.CAD = 1;       // Low on counter down
-    EPwm3Regs.DBCTL.bit.IN_MODE = 0;    // Channel A input
-    EPwm3Regs.DBCTL.bit.DEDB_MODE = 0;  //
-    EPwm3Regs.DBCTL.bit.POLSEL = 2;     // Active high, complementary
-    EPwm3Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
-    EPwm3Regs.DBFED.bit.DBFED = 20;     // 200ns
-    EPwm3Regs.DBRED.bit.DBRED = 20;     // 200ns
-    EPwm3Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM3A high on trip
-    EPwm3Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM3B low on trip
+    EPwm3Regs.TBPRD = PWM_PRD_HALF;
+    EPwm3Regs.TBCTL.bit.PHSEN = TB_ENABLE;
+    EPwm3Regs.TBCTL.bit.PRDLD = TB_SHADOW;
+    EPwm3Regs.TBCTL.bit.HSPCLKDIV = 0;
+    EPwm3Regs.TBPHS.bit.TBPHS = 0;                  // zero phase delay
+    EPwm3Regs.EPWMSYNCINSEL.bit.SEL = 1;            // Sync to PWM1
+    EPwm3Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1;
+    EPwm3Regs.AQCTLA.bit.CAU = AQ_SET;
+    EPwm3Regs.AQCTLA.bit.CAD = AQ_CLEAR;
+    EPwm3Regs.DBCTL.bit.POLSEL = DB_ACTV_HIC;
+    EPwm3Regs.DBCTL.bit.OUT_MODE = 3;
+    EPwm3Regs.DBFED.bit.DBFED = 20;
+    EPwm3Regs.DBRED.bit.DBRED = 20;
+    EPwm3Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm3Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
 
     // PWM4 configuration
-    EPwm4Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
-    EPwm4Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
-    EPwm4Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
-    EPwm4Regs.TBCTL.bit.PHSEN = 1;      // Slave module
-    EPwm4Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
-    EPwm4Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
-    EPwm4Regs.TBCTL.bit.CLKDIV = 0;
-    EPwm4Regs.TBCTR = 0;
-    EPwm4Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // π/2 phase delay
-    EPwm4Regs.EPWMSYNCINSEL.bit.SEL = 3; // Sync to PWM3
-    EPwm4Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
-    EPwm4Regs.CMPCTL.bit.SHDWAMODE = 0;
-    EPwm4Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
-    EPwm4Regs.AQCTLA.bit.CAU = 2;       // High on counter up
-    EPwm4Regs.AQCTLA.bit.CAD = 1;       // Low on counter down
-    EPwm4Regs.DBCTL.bit.IN_MODE = 0;    // Channel A input
-    EPwm4Regs.DBCTL.bit.DEDB_MODE = 0;  //
-    EPwm4Regs.DBCTL.bit.POLSEL = 2;     // Active high, complementary
-    EPwm4Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
-    EPwm4Regs.DBFED.bit.DBFED = 20;     // 200ns
-    EPwm4Regs.DBRED.bit.DBRED = 20;     // 200ns
-    EPwm4Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM4A high on trip
-    EPwm4Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM4B low on trip
+    EPwm4Regs.TBPRD = PWM_PRD_HALF;
+    EPwm4Regs.TBCTL.bit.PHSEN = TB_ENABLE;
+    EPwm4Regs.TBCTL.bit.PRDLD = TB_SHADOW;
+    EPwm4Regs.TBCTL.bit.HSPCLKDIV = 0;
+    EPwm4Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER;    // π/2 phase delay
+    EPwm4Regs.EPWMSYNCINSEL.bit.SEL = 3;            // Sync to PWM3
+    EPwm4Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1;
+    EPwm4Regs.AQCTLA.bit.CAU = AQ_SET;
+    EPwm4Regs.AQCTLA.bit.CAD = AQ_CLEAR;
+    EPwm4Regs.DBCTL.bit.POLSEL = DB_ACTV_HIC;
+    EPwm4Regs.DBCTL.bit.OUT_MODE = 3;
+    EPwm4Regs.DBFED.bit.DBFED = 20;
+    EPwm4Regs.DBRED.bit.DBRED = 20;
+    EPwm4Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm4Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
 
     // PWM5 configuration
-    EPwm5Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
-    EPwm5Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
-    EPwm5Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
-    EPwm5Regs.TBCTL.bit.PHSEN = 1;      // Slave module
-    EPwm5Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
-    EPwm5Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
-    EPwm5Regs.TBCTL.bit.CLKDIV = 0;
-    EPwm5Regs.TBCTR = 0;
-    EPwm5Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER ; // π/2 phase delay
-    EPwm5Regs.EPWMSYNCINSEL.bit.SEL = 2; // Sync to PWM2
-    EPwm5Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
-    EPwm5Regs.CMPCTL.bit.SHDWAMODE = 0;
-    EPwm5Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
-    EPwm5Regs.AQCTLA.bit.CAU = 2;       // High on counter up
-    EPwm5Regs.AQCTLA.bit.CAD = 1;       // Low on counter down
-    EPwm5Regs.DBCTL.bit.IN_MODE = 0;    // Channel A input
-    EPwm5Regs.DBCTL.bit.DEDB_MODE = 0;  //
-    EPwm5Regs.DBCTL.bit.POLSEL = 2;     // Active high, complementary
-    EPwm5Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
-    EPwm5Regs.DBFED.bit.DBFED = 20;     // 200ns
-    EPwm5Regs.DBRED.bit.DBRED = 20;     // 200ns
-    EPwm5Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM5A high on trip
-    EPwm5Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM5B low on trip
+    EPwm5Regs.TBPRD = PWM_PRD_HALF;
+    EPwm5Regs.TBCTL.bit.PHSEN = TB_ENABLE;
+    EPwm5Regs.TBCTL.bit.PRDLD = TB_SHADOW;
+    EPwm5Regs.TBCTL.bit.HSPCLKDIV = 0;
+    EPwm5Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER ;   // π/2 phase delay
+    EPwm5Regs.EPWMSYNCINSEL.bit.SEL = 2;            // Sync to PWM2
+    EPwm5Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1;
+    EPwm5Regs.AQCTLA.bit.CAU = AQ_SET;
+    EPwm5Regs.AQCTLA.bit.CAD = AQ_CLEAR;
+    EPwm5Regs.DBCTL.bit.POLSEL = DB_ACTV_HIC;
+    EPwm5Regs.DBCTL.bit.OUT_MODE = 3;
+    EPwm5Regs.DBFED.bit.DBFED = 20;
+    EPwm5Regs.DBRED.bit.DBRED = 20;
+    EPwm5Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm5Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
 
     // PWM6 configuration
-    EPwm6Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
-    EPwm6Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
-    EPwm6Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
-    EPwm6Regs.TBCTL.bit.PHSEN = 1;      // Slave module
-    EPwm6Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
-    EPwm6Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
-    EPwm6Regs.TBCTL.bit.CLKDIV = 0;
-    EPwm6Regs.TBCTR = 0;
-    EPwm6Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // π/2 phase delay
-    EPwm6Regs.EPWMSYNCINSEL.bit.SEL = 5; // Sync to PWM5
-    EPwm6Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
-    EPwm6Regs.CMPCTL.bit.SHDWAMODE = 0;
-    EPwm6Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
-    EPwm6Regs.AQCTLA.bit.CAU = 2;       // High on counter up
-    EPwm6Regs.AQCTLA.bit.CAD = 1;       // Low on counter down
-    EPwm6Regs.DBCTL.bit.IN_MODE = 0;    // Channel A input
-    EPwm6Regs.DBCTL.bit.DEDB_MODE = 0;  //
-    EPwm6Regs.DBCTL.bit.POLSEL = 2;     // Active high, complementary
-    EPwm6Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
-    EPwm6Regs.DBFED.bit.DBFED = 20;     // 200ns
-    EPwm6Regs.DBRED.bit.DBRED = 20;     // 200ns
-    EPwm6Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM6A high on trip
-    EPwm6Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM6B low on trip
+    EPwm6Regs.TBPRD = PWM_PRD_HALF;
+    EPwm6Regs.TBCTL.bit.PHSEN = TB_ENABLE;
+    EPwm6Regs.TBCTL.bit.PRDLD = TB_SHADOW;
+    EPwm6Regs.TBCTL.bit.HSPCLKDIV = 0;
+    EPwm6Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER;    // π/2 phase delay
+    EPwm6Regs.EPWMSYNCINSEL.bit.SEL = 5;            // Sync to PWM5
+    EPwm6Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1;
+    EPwm6Regs.AQCTLA.bit.CAU = AQ_SET;
+    EPwm6Regs.AQCTLA.bit.CAD = AQ_CLEAR;
+    EPwm6Regs.DBCTL.bit.POLSEL = DB_ACTV_HIC;
+    EPwm6Regs.DBCTL.bit.OUT_MODE = 3;
+    EPwm6Regs.DBFED.bit.DBFED = 20;
+    EPwm6Regs.DBRED.bit.DBRED = 20;
+    EPwm6Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm6Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
 
     // PWM7 configuration
-    EPwm7Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
-    EPwm7Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
-    EPwm7Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
-    EPwm7Regs.TBCTL.bit.PHSEN = 1;      // Slave module
-    EPwm7Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
-    EPwm7Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
-    EPwm7Regs.TBCTL.bit.CLKDIV = 0;
-    EPwm7Regs.TBCTR = 0;
-    EPwm7Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // π/2 phase delay
-    EPwm7Regs.EPWMSYNCINSEL.bit.SEL = 4; // Sync to PWM4
-    EPwm7Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1; // Sync out on CTR = 0
-    EPwm7Regs.CMPCTL.bit.SHDWAMODE = 0;
-    EPwm7Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
-    EPwm7Regs.AQCTLA.bit.CAU = 2;       // High on counter up
-    EPwm7Regs.AQCTLA.bit.CAD = 1;       // Low on counter down
-    EPwm7Regs.DBCTL.bit.IN_MODE = 0;    // Channel A input
-    EPwm7Regs.DBCTL.bit.DEDB_MODE = 0;  //
-    EPwm7Regs.DBCTL.bit.POLSEL = 2;     // Active high, complementary
-    EPwm7Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
-    EPwm7Regs.DBFED.bit.DBFED = 20;     // 200ns
-    EPwm7Regs.DBRED.bit.DBRED = 20;     // 200ns
-    EPwm7Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM7A high on trip
-    EPwm7Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM7B low on trip
+    EPwm7Regs.TBPRD = PWM_PRD_HALF;
+    EPwm7Regs.TBCTL.bit.PHSEN = TB_ENABLE;
+    EPwm7Regs.TBCTL.bit.PRDLD = TB_SHADOW;
+    EPwm7Regs.TBCTL.bit.HSPCLKDIV = 0;
+    EPwm7Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER;    // π/2 phase delay
+    EPwm7Regs.EPWMSYNCINSEL.bit.SEL = 4;            // Sync to PWM4
+    EPwm7Regs.EPWMSYNCOUTEN.bit.ZEROEN = 1;
+    EPwm7Regs.AQCTLA.bit.CAU = AQ_SET;
+    EPwm7Regs.AQCTLA.bit.CAD = AQ_CLEAR;
+    EPwm7Regs.DBCTL.bit.POLSEL = DB_ACTV_HIC;
+    EPwm7Regs.DBCTL.bit.OUT_MODE = 3;
+    EPwm7Regs.DBFED.bit.DBFED = 20;
+    EPwm7Regs.DBRED.bit.DBRED = 20;
+    EPwm7Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm7Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
 
     // PWM8 configuration
-    EPwm8Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
-    EPwm8Regs.CMPA.bit.CMPA = 0;        // Set duty cycle to 100% on high-side transistor
-    EPwm8Regs.TBCTL.bit.CTRMODE = 2;    // Up/down mode
-    EPwm8Regs.TBCTL.bit.PHSEN = 1;      // Slave module
-    EPwm8Regs.TBCTL.bit.PRDLD = 0;      // Shadow register
-    EPwm8Regs.TBCTL.bit.HSPCLKDIV = 0;  // TBCLK = SYSCLK
-    EPwm8Regs.TBCTL.bit.CLKDIV = 0;
-    EPwm8Regs.TBCTR = 0;
-    EPwm8Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER; // π/2 phase delay
-    EPwm8Regs.EPWMSYNCINSEL.bit.SEL = 7; // Sync to PWM7
-    EPwm8Regs.CMPCTL.bit.SHDWAMODE = 0;
-    EPwm8Regs.CMPCTL.bit.LOADAMODE = 0; // load on CTR = Zero
-    EPwm8Regs.AQCTLA.bit.CAU = 2;       // High on counter up
-    EPwm8Regs.AQCTLA.bit.CAD = 1;       // Low on counter down
-    EPwm8Regs.DBCTL.bit.IN_MODE = 0;    // Channel A input
-    EPwm8Regs.DBCTL.bit.DEDB_MODE = 0;  //
-    EPwm8Regs.DBCTL.bit.POLSEL = 2;     // Active high, complementary
-    EPwm8Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
-    EPwm8Regs.DBFED.bit.DBFED = 20;     // 200ns
-    EPwm8Regs.DBRED.bit.DBRED = 20;     // 200ns
-    EPwm8Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM8A high on trip
-    EPwm8Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM8B low on trip
-
+    EPwm8Regs.TBPRD = PWM_PRD_HALF;
+    EPwm8Regs.TBCTL.bit.PHSEN = TB_ENABLE;
+    EPwm8Regs.TBCTL.bit.PRDLD = TB_SHADOW;
+    EPwm8Regs.TBCTL.bit.HSPCLKDIV = 0;
+    EPwm8Regs.TBPHS.bit.TBPHS = PWM_PRD_QUARTER;    // π/2 phase delay
+    EPwm8Regs.EPWMSYNCINSEL.bit.SEL = 7;            // Sync to PWM7
+    EPwm8Regs.AQCTLA.bit.CAU = AQ_SET;
+    EPwm8Regs.AQCTLA.bit.CAD = AQ_CLEAR;
+    EPwm8Regs.DBCTL.bit.POLSEL = DB_ACTV_HIC;
+    EPwm8Regs.DBCTL.bit.OUT_MODE = 3;
+    EPwm8Regs.DBFED.bit.DBFED = 20;
+    EPwm8Regs.DBRED.bit.DBRED = 20;
+    EPwm8Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm8Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
     EDIS;
+
+    disablePWM();
 }
 
 void disablePWM(void) {
     EALLOW;
-    EPwm1Regs.TZFRC.bit.OST = 0x1;
-    EPwm2Regs.TZFRC.bit.OST = 0x1;
-    EPwm3Regs.TZFRC.bit.OST = 0x1;
-    EPwm4Regs.TZFRC.bit.OST = 0x1;
-    EPwm5Regs.TZFRC.bit.OST = 0x1;
-    EPwm6Regs.TZFRC.bit.OST = 0x1;
-    EPwm7Regs.TZFRC.bit.OST = 0x1;
-    EPwm8Regs.TZFRC.bit.OST = 0x1;
+    // Force trip
+    EPwm1Regs.TZFRC.bit.OST = 1;
+    EPwm2Regs.TZFRC.bit.OST = 1;
+    EPwm3Regs.TZFRC.bit.OST = 1;
+    EPwm4Regs.TZFRC.bit.OST = 1;
+    EPwm5Regs.TZFRC.bit.OST = 1;
+    EPwm6Regs.TZFRC.bit.OST = 1;
+    EPwm7Regs.TZFRC.bit.OST = 1;
+    EPwm8Regs.TZFRC.bit.OST = 1;
+
+    // Disable counters
+    EPwm1Regs.TBCTL.bit.CTRMODE = TB_FREEZE; 
+    EPwm2Regs.TBCTL.bit.CTRMODE = TB_FREEZE; 
+    EPwm3Regs.TBCTL.bit.CTRMODE = TB_FREEZE; 
+    EPwm4Regs.TBCTL.bit.CTRMODE = TB_FREEZE; 
+    EPwm5Regs.TBCTL.bit.CTRMODE = TB_FREEZE; 
+    EPwm6Regs.TBCTL.bit.CTRMODE = TB_FREEZE; 
+    EPwm7Regs.TBCTL.bit.CTRMODE = TB_FREEZE; 
+    EPwm8Regs.TBCTL.bit.CTRMODE = TB_FREEZE; 
     EDIS;
 }
 
 void enablePWM(void) {
     EALLOW;
-    EPwm1Regs.TZCLR.bit.OST = 0x1;
-    EPwm2Regs.TZCLR.bit.OST = 0x1;
-    EPwm3Regs.TZCLR.bit.OST = 0x1;
-    EPwm4Regs.TZCLR.bit.OST = 0x1;
-    EPwm5Regs.TZCLR.bit.OST = 0x1;
-    EPwm6Regs.TZCLR.bit.OST = 0x1;
-    EPwm7Regs.TZCLR.bit.OST = 0x1;
-    EPwm8Regs.TZCLR.bit.OST = 0x1;
+    // Set counter value
+    EPwm1Regs.TBCTR = 0;
+    EPwm2Regs.TBCTR = 0;
+    EPwm3Regs.TBCTR = 0;
+    EPwm4Regs.TBCTR = 0;
+    EPwm5Regs.TBCTR = 0;
+    EPwm6Regs.TBCTR = 0;
+    EPwm7Regs.TBCTR = 0;
+    EPwm8Regs.TBCTR = 0;
+
+    // Set duty cycle to 100% on high-side transistor
+    EPwm1Regs.CMPA.bit.CMPA = 0; 
+    EPwm2Regs.CMPA.bit.CMPA = 0; 
+    EPwm3Regs.CMPA.bit.CMPA = 0; 
+    EPwm4Regs.CMPA.bit.CMPA = 0; 
+    EPwm5Regs.CMPA.bit.CMPA = 0; 
+    EPwm6Regs.CMPA.bit.CMPA = 0; 
+    EPwm7Regs.CMPA.bit.CMPA = 0; 
+    EPwm8Regs.CMPA.bit.CMPA = 0; 
+
+    // Counter up/down mode
+    EPwm1Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN; 
+    EPwm2Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN; 
+    EPwm3Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN; 
+    EPwm4Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN; 
+    EPwm5Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN; 
+    EPwm6Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN; 
+    EPwm7Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN; 
+    EPwm8Regs.TBCTL.bit.CTRMODE = TB_COUNT_UPDOWN; 
+
+    // Clear trip
+    EPwm1Regs.TZCLR.bit.OST = 1;
+    EPwm2Regs.TZCLR.bit.OST = 1;
+    EPwm3Regs.TZCLR.bit.OST = 1;
+    EPwm4Regs.TZCLR.bit.OST = 1;
+    EPwm5Regs.TZCLR.bit.OST = 1;
+    EPwm6Regs.TZCLR.bit.OST = 1;
+    EPwm7Regs.TZCLR.bit.OST = 1;
+    EPwm8Regs.TZCLR.bit.OST = 1;
     EDIS;
 }
-
