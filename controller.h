@@ -27,11 +27,11 @@ enum trip_status isInSOA(struct ADCResult, enum converter_states);
 
 void initPIConttrollers(void);
 
-void enableControllerVclamp(void);
-void disableControllerVclamp(void);
+void setControllerVclampRef(float);
+void adjControllerVclampRef(float);
 
-void enableControllerIout(void);
-void disableControllerIout(void);
+void setControllerIoutRef(float);
+void adjControllerIoutRef(float);
 
 __interrupt void adcA1ISR(void);
 
