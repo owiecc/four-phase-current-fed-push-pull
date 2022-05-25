@@ -53,6 +53,8 @@ void initEPWM(void)
     EPwm1Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
     EPwm1Regs.DBFED.bit.DBFED = 20;     // 200ns
     EPwm1Regs.DBRED.bit.DBRED = 20;     // 200ns
+    EPwm1Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM1A high on trip
+    EPwm1Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM1B low on trip
 
     EPwm1Regs.ETSEL.bit.SOCAEN = 1;     // Disable SOC on A group
     EPwm1Regs.ETSEL.bit.SOCASEL = 1;    // Select SOC on up-count
@@ -80,6 +82,8 @@ void initEPWM(void)
     EPwm2Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
     EPwm2Regs.DBFED.bit.DBFED = 20;     // 200ns
     EPwm2Regs.DBRED.bit.DBRED = 20;     // 200ns
+    EPwm2Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM2A high on trip
+    EPwm2Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM2B low on trip
 
     // PWM3 configuration
     EPwm3Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
@@ -103,6 +107,8 @@ void initEPWM(void)
     EPwm3Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
     EPwm3Regs.DBFED.bit.DBFED = 20;     // 200ns
     EPwm3Regs.DBRED.bit.DBRED = 20;     // 200ns
+    EPwm3Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM3A high on trip
+    EPwm3Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM3B low on trip
 
     // PWM4 configuration
     EPwm4Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
@@ -126,6 +132,8 @@ void initEPWM(void)
     EPwm4Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
     EPwm4Regs.DBFED.bit.DBFED = 20;     // 200ns
     EPwm4Regs.DBRED.bit.DBRED = 20;     // 200ns
+    EPwm4Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM4A high on trip
+    EPwm4Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM4B low on trip
 
     // PWM5 configuration
     EPwm5Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
@@ -149,6 +157,8 @@ void initEPWM(void)
     EPwm5Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
     EPwm5Regs.DBFED.bit.DBFED = 20;     // 200ns
     EPwm5Regs.DBRED.bit.DBRED = 20;     // 200ns
+    EPwm5Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM5A high on trip
+    EPwm5Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM5B low on trip
 
     // PWM6 configuration
     EPwm6Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
@@ -172,6 +182,8 @@ void initEPWM(void)
     EPwm6Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
     EPwm6Regs.DBFED.bit.DBFED = 20;     // 200ns
     EPwm6Regs.DBRED.bit.DBRED = 20;     // 200ns
+    EPwm6Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM6A high on trip
+    EPwm6Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM6B low on trip
 
     // PWM7 configuration
     EPwm7Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
@@ -195,6 +207,8 @@ void initEPWM(void)
     EPwm7Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
     EPwm7Regs.DBFED.bit.DBFED = 20;     // 200ns
     EPwm7Regs.DBRED.bit.DBRED = 20;     // 200ns
+    EPwm7Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM7A high on trip
+    EPwm7Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM7B low on trip
 
     // PWM8 configuration
     EPwm8Regs.TBPRD = PWM_PRD_HALF;     // Set period to ~40kHz
@@ -217,6 +231,8 @@ void initEPWM(void)
     EPwm8Regs.DBCTL.bit.OUT_MODE = 3;   // Channel A controls channel B
     EPwm8Regs.DBFED.bit.DBFED = 20;     // 200ns
     EPwm8Regs.DBRED.bit.DBRED = 20;     // 200ns
+    EPwm8Regs.TZCTL.bit.TZA = TZ_FORCE_HI; // EPWM8A high on trip
+    EPwm8Regs.TZCTL.bit.TZB = TZ_FORCE_LO; // EPWM8B low on trip
 
     EDIS;
 }
