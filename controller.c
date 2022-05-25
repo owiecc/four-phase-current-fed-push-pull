@@ -34,7 +34,7 @@ inline int isInSOAStartup(float val, struct OPLimits lims)
     return val < lims.startupHi && val > lims.startupLo;
 }
 
-enum trip_reasons isInSOA(struct ADCResult sensors, enum converter_states cs)
+enum trip_status isInSOA(struct ADCResult sensors, enum converter_states cs)
 {
     switch (cs) {
     case StateOn:

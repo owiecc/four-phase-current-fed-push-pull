@@ -10,7 +10,7 @@
 
 // Globals
 static enum converter_states converter_state;
-enum trip_reasons tripStatus;
+enum trip_status tripStatus;
 
 // Main
 void main(void)

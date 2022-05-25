@@ -5,7 +5,7 @@
 #include "adc.h"
 
 enum converter_states {StateInitDSP,StateStandby,StateStartup,StateOn,StateShutdown,StateTrip};
-enum trip_reasons {TripOC, TripSOAVin, TripSOAVout, TripSOAVclamp, NoTrip};
+enum trip_status {TripOC, TripSOAVin, TripSOAVout, TripSOAVclamp, NoTrip};
 
 struct OPLimits {
     float tripHi;    // trip above this value
@@ -25,7 +25,7 @@ void initPIConttrollers(void);
 
 int isInSOAOn(float, struct OPLimits);
 int isInSOAStartup(float, struct OPLimits);
-enum trip_reasons isInSOA(struct ADCResult, enum converter_states);
+enum trip_status isInSOA(struct ADCResult, enum converter_states);
 
 void enableControllerVclamp(void);
 void disableControllerVclamp(void);
