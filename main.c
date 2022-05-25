@@ -33,9 +33,6 @@ void main(void)
         }
         case StateStandby:
         {
-            struct ADCResult sensors;
-            sensors = readADC();
-
             // Enable startup transition only if the converter is within SOA
             if (button == BtnOn && isInSOA(readADC(), StateStandby) == NoTrip)
             {
@@ -46,19 +43,37 @@ void main(void)
         case StateStartup:
         {
             relayOn();
-            // TODO Turn the Vclamp controller on
+            initPIConttrollers();
+            setControllerIoutRef(0);
+            setControllerVclampRef(0);
+            enablePWM();
+            converter_state = StateOn;
             break;
         }
         case StateOn:
         {
-            // TODO Turn the Iout controller on
-            // TODO Set reference current
+            switch (button)
+            {
+            case BtnOff:
+                converter_state = StateShutdown;
+                break;
+            case BtnZero:
+                setControllerIoutRef(0.0);
+                break;
+            case BtnIncr:
+                setControllerIoutRef(0.1);
+                break;
+            case BtnDecr:
+                setControllerIoutRef(-0.1);
+                break;
+            }
             break;
         }
         case StateShutdown:
         {
             relayOff();
-            // TODO Set reference current to zero
+            disablePWM();
+            converter_state = StateStandby;
             break;
         }
         case StateTrip:
