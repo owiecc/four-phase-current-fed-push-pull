@@ -9,8 +9,8 @@
 #define N ((float)n1/(float)n2)
 #define Ninv ((float)n2/(float)n1)
 #define FSW 40000
-#define PI_Vc_Ki 0.05
-#define PI_Io_Ki 0.10
+#define PI_Vc_Ki 0.05f
+#define PI_Io_Ki 0.10f
 
 static struct piController PI_Vc = {0, 0, 0, 0, 0}; // Vclamp controller
 static struct piController PI_Io = {0, 0, 0, 0, 0}; // Iout controller
