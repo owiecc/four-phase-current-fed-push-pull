@@ -21,17 +21,17 @@ struct OPLimitsConverter {
     struct OPLimits Iout;
 };
 
-void initPIConttrollers(void);
-
 int isInSOAOn(float, struct OPLimits);
 int isInSOAStartup(float, struct OPLimits);
 enum trip_status isInSOA(struct ADCResult, enum converter_states);
 
-void enableControllerVclamp(void);
-void disableControllerVclamp(void);
+void initPIConttrollers(void);
 
 void enableControllerVclamp(void);
 void disableControllerVclamp(void);
+
+void enableControllerIout(void);
+void disableControllerIout(void);
 
 __interrupt void adcA1ISR(void);
 
