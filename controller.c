@@ -78,14 +78,21 @@ __interrupt void adcA1ISR(void)
 
     struct ADCResult meas = scaleADCs();
 
-    float deltaVclamp = 0;
-    float errVclamp = meas.Vin*Ninv + deltaVclamp - meas.Vclamp;
-    float errIout = refIo - meas.Iout;
+    if (false) // trip
+    {
+        disablePWM();
+    }
+    else // normal operation
+    {
+        float deltaVclamp = 0;
+        float errVclamp = meas.Vin*Ninv + deltaVclamp - meas.Vclamp;
+        float errIout = refIo - meas.Iout;
 
-    float d = updatePI(&PI_Vc, -errVclamp);
-    float p = updatePI(&PI_Io, -errIout);
+        float d = updatePI(&PI_Vc, -errVclamp);
+        float p = updatePI(&PI_Io, -errIout);
 
-    updateModulator(d, p);
+        updateModulator(d, p);
+    }
 
     AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Clear the interrupt flag
 
