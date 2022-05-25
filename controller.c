@@ -15,7 +15,8 @@
 static struct piController PI_Vc = {0, 0, 0, 0, 0}; // Vclamp controller
 static struct piController PI_Io = {0, 0, 0, 0, 0}; // Iout controller
 
-static float refIo = 0;
+static float refIo = 0.0f;
+static float refDeltaVclamp = 0.0f;
 
 struct OPLimitsConverter SOA = {
     .Vin =    (struct OPLimits) {.tripHi =  840, .startupHi =  820, .startupLo =  780, .tripLo = 720 },
