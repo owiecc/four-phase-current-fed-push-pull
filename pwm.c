@@ -2,6 +2,18 @@
 #include "pwm.h"
 #include "f28x_project.h"
 
+// # Structure of the PWM modulator
+//
+// - EPwm1 + EPwm2 + EPwm5 + EPwm6 = grid side bridge
+// - EPwm3 + EPwm4 + EPwm7 + EPwm8 = battery side bridge
+//
+// ## Phase delays between individual leg modulators
+//
+// EPwm1 --- (+π/2) EPwm2 --- (+π/2) EPwm5 --- (+π/2) EPwm6
+//   |
+//   └-- (+Θ) EPwm3 --- (+π/2) EPwm4 --- (+π/2) EPwm7 --- (+π/2) EPwm8
+//
+
 void updateModulator(float d, float phase)
 {
     Uint16 cmp = PWM_PRD_HALF*(1-d);
