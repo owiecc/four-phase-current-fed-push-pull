@@ -9,13 +9,12 @@
 #include "relay.h"
 
 // Globals
-static enum converter_states converter_state;
 enum trip_status tripStatus;
+static enum converter_states converter_state = StateInitDSP;
 
 // Main
 void main(void)
 {
-    converter_state = StateInitDSP;
     while(1)
     {
         enum button button = button_pressed();
