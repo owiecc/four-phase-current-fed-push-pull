@@ -25,6 +25,8 @@ int isInSOAOn(float, struct OPLimits);
 int isInSOAStartup(float, struct OPLimits);
 enum trip_status isInSOA(struct ADCResult, enum converter_states);
 
+void initTripFeedback(enum trip_status *);
+
 void initPIConttrollers(void);
 
 void setControllerVclampRef(float);

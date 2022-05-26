@@ -18,6 +18,8 @@ static struct piController PI_Io = {0, 0, 0, 0, 0}; // Iout controller
 static float refIo = 0.0f;
 static float refDeltaVclamp = 0.0f;
 
+static enum trip_status * tripFeedback;
+
 struct OPLimitsConverter SOA = {
     .Vin =    (struct OPLimits) {.tripHi =  840, .startupHi =  820, .startupLo =  780, .tripLo = 720 },
     .Vout =   (struct OPLimits) {.tripHi =  930, .startupHi =  925, .startupLo =  195, .tripLo = 190 },
@@ -59,6 +61,11 @@ enum trip_status isInSOA(struct ADCResult sensors, enum converter_states cs)
     return NoTrip;
 }
 
+void initTripFeedback(enum trip_status *x)
+{
+    tripFeedback = x;
+}
+
 void initPIConttrollers(void)
 {
     PI_Vc = initPI(PI_Vc_Ki/FSW, 2*PI_Vc_Ki/FSW, 0.5, -1, 0.99);
@@ -80,6 +87,7 @@ __interrupt void adcA1ISR(void)
     if (false) // trip
     {
         disablePWM();
+        *tripFeedback = isInSOA(meas, StateOn);
     }
     else // normal operation
     {

@@ -9,8 +9,8 @@
 #include "relay.h"
 
 // Globals
-enum trip_status tripStatus;
 static enum converter_states converter_state = StateInitDSP;
+enum trip_status tripStatus = NoTrip;
 
 // Main
 void main(void)
@@ -24,6 +24,7 @@ void main(void)
         case StateInitDSP:
         {
             initDSP(); // Configure GPIO, ADC, PWM
+            initTripFeedback(&tripStatus);
             initPIConttrollers(); // Initialize PI controllers
             // TODO Turn the Vclamp controller off
             // TODO Turn the Iout controller off
