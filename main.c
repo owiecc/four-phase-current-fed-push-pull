@@ -52,6 +52,11 @@ void main(void)
         }
         case StateOn:
         {
+            if (tripStatus != NoTrip)
+            {
+                converter_state = StateTrip;
+                break;
+            }
             switch (button)
             {
             case BtnOff:
