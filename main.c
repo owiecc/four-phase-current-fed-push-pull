@@ -34,7 +34,7 @@ void main(void)
         case StateStandby:
         {
             // Enable startup transition only if the converter is within SOA
-            if (button == BtnOn && isInSOA(readADC(), StateStandby) == NoTrip)
+            if (button == BtnOn /*&& isInSOA(readADC(), StateStandby) == NoTrip*/)
             {
                 converter_state = StateStartup;
             }
@@ -92,7 +92,7 @@ void main(void)
             if (tripStatus == TripSOAVclamp) { ledOn(LEDTripSOAVclamp); }
 
             // Clear trip condition only if trip clear button is pressed and the converter is within SOA
-            if (button == BtnClrTrip && isInSOA(readADC(), StateStandby) == NoTrip)
+            if (button == BtnClrTrip /*&& isInSOA(readADC(), StateStandby) == NoTrip*/)
             {
                 tripStatus = NoTrip;
                 converter_state = StateStandby;

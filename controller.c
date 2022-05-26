@@ -84,10 +84,13 @@ __interrupt void adcA1ISR(void)
 {
     struct ADCResult meas = scaleADCs();
 
-    if (false) // trip
+    static unsigned int ncycles = 400;
+
+    if (ncycles-- == 0) // trip
     {
         disablePWM();
-        *tripFeedback = isInSOA(meas, StateOn);
+        *tripFeedback = TripOC;//isInSOA(meas, StateOn);
+        ncycles = 400;
     }
     else // normal operation
     {
