@@ -23,7 +23,7 @@ Controller for a four-phase current-fed push-pull topology. Based on a TMDSCNCD2
 |        9 | A0          | Vin      |
 |       11 | A1          | Vout     |
 |       15 | A2          | Vclamp   |
-|       17 | A3          | Iout     |
+|       17 | A4          | Iout     |
 
 ### Control buttons
 
