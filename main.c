@@ -81,16 +81,22 @@ void main(void)
             relayOff(); // TODO Is this safe e.g. in over-current condition?
 
             // Indicate trip status on LEDs
-            if (tripStatus == TripOC) { ledOn(LEDTripOC); } else { ledOff(LEDTripOC); }
-            if (tripStatus == TripSOAVin) { ledOn(LEDTripSOAVin); } else { ledOff(LEDTripSOAVin); }
-            if (tripStatus == TripSOAVout) { ledOn(LEDTripSOAVout); } else { ledOff(LEDTripSOAVout); }
-            if (tripStatus == TripSOAVclamp) { ledOn(LEDTripSOAVclamp); } else { ledOff(LEDTripSOAVclamp); }
+            if (tripStatus == TripOC) { ledOn(LEDTripOC); }
+            if (tripStatus == TripSOAVin) { ledOn(LEDTripSOAVin); }
+            if (tripStatus == TripSOAVout) { ledOn(LEDTripSOAVout); }
+            if (tripStatus == TripSOAVclamp) { ledOn(LEDTripSOAVclamp); }
 
             // Clear trip condition only if trip clear button is pressed and the converter is within SOA
             if (button == BtnClrTrip && isInSOA(readADC(), StateStandby) == NoTrip)
             {
                 tripStatus = NoTrip;
                 converter_state = StateStandby;
+
+                // Turn off status LEDs
+                ledOff(LEDTripOC);
+                ledOff(LEDTripSOAVin);
+                ledOff(LEDTripSOAVout);
+                ledOff(LEDTripSOAVclamp);
             }
             break;
         }
