@@ -45,6 +45,27 @@ void updateEPWM(unsigned int cmpIn, unsigned int cmpOut, int phaseShiftInOut)
 void initEPWM(void)
 {
     EALLOW;
+    // Configure state of PWM signals after trip
+    EPwm1Regs.TZCTL.bit.TZA = TZ_FORCE_HI;          // EPWM1A high on trip
+    EPwm1Regs.TZCTL.bit.TZB = TZ_FORCE_LO;          // EPWM1B low on trip
+    EPwm2Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm2Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
+    EPwm3Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm3Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
+    EPwm4Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm4Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
+    EPwm5Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm5Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
+    EPwm6Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm6Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
+    EPwm7Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm7Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
+    EPwm8Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
+    EPwm8Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
+
+    // Force trip
+    disablePWM();
+
     // PWM1 configuration
     EPwm1Regs.TBPRD = PWM_PRD_HALF;                 // Set period to 40kHz
     EPwm1Regs.TBCTL.bit.PHSEN = TB_DISABLE;         // Master module
@@ -57,8 +78,6 @@ void initEPWM(void)
     EPwm1Regs.DBCTL.bit.OUT_MODE = 3;               // Channel A controls channel B
     EPwm1Regs.DBFED.bit.DBFED = 20;                 // 200ns
     EPwm1Regs.DBRED.bit.DBRED = 20;                 // 200ns
-    EPwm1Regs.TZCTL.bit.TZA = TZ_FORCE_HI;          // EPWM1A high on trip
-    EPwm1Regs.TZCTL.bit.TZB = TZ_FORCE_LO;          // EPWM1B low on trip
 
     EPwm1Regs.ETSEL.bit.SOCAEN = 1;                 // Enable SOC on A group
     EPwm1Regs.ETSEL.bit.SOCASEL = 1;                // Select SOC on up-count
@@ -78,8 +97,6 @@ void initEPWM(void)
     EPwm2Regs.DBCTL.bit.OUT_MODE = 3;
     EPwm2Regs.DBFED.bit.DBFED = 20;
     EPwm2Regs.DBRED.bit.DBRED = 20;
-    EPwm2Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
-    EPwm2Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
 
     // PWM3 configuration
     EPwm3Regs.TBPRD = PWM_PRD_HALF;
@@ -95,8 +112,6 @@ void initEPWM(void)
     EPwm3Regs.DBCTL.bit.OUT_MODE = 3;
     EPwm3Regs.DBFED.bit.DBFED = 20;
     EPwm3Regs.DBRED.bit.DBRED = 20;
-    EPwm3Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
-    EPwm3Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
 
     // PWM4 configuration
     EPwm4Regs.TBPRD = PWM_PRD_HALF;
@@ -112,8 +127,6 @@ void initEPWM(void)
     EPwm4Regs.DBCTL.bit.OUT_MODE = 3;
     EPwm4Regs.DBFED.bit.DBFED = 20;
     EPwm4Regs.DBRED.bit.DBRED = 20;
-    EPwm4Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
-    EPwm4Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
 
     // PWM5 configuration
     EPwm5Regs.TBPRD = PWM_PRD_HALF;
@@ -129,8 +142,6 @@ void initEPWM(void)
     EPwm5Regs.DBCTL.bit.OUT_MODE = 3;
     EPwm5Regs.DBFED.bit.DBFED = 20;
     EPwm5Regs.DBRED.bit.DBRED = 20;
-    EPwm5Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
-    EPwm5Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
 
     // PWM6 configuration
     EPwm6Regs.TBPRD = PWM_PRD_HALF;
@@ -146,8 +157,6 @@ void initEPWM(void)
     EPwm6Regs.DBCTL.bit.OUT_MODE = 3;
     EPwm6Regs.DBFED.bit.DBFED = 20;
     EPwm6Regs.DBRED.bit.DBRED = 20;
-    EPwm6Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
-    EPwm6Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
 
     // PWM7 configuration
     EPwm7Regs.TBPRD = PWM_PRD_HALF;
@@ -163,8 +172,6 @@ void initEPWM(void)
     EPwm7Regs.DBCTL.bit.OUT_MODE = 3;
     EPwm7Regs.DBFED.bit.DBFED = 20;
     EPwm7Regs.DBRED.bit.DBRED = 20;
-    EPwm7Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
-    EPwm7Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
 
     // PWM8 configuration
     EPwm8Regs.TBPRD = PWM_PRD_HALF;
@@ -179,11 +186,8 @@ void initEPWM(void)
     EPwm8Regs.DBCTL.bit.OUT_MODE = 3;
     EPwm8Regs.DBFED.bit.DBFED = 20;
     EPwm8Regs.DBRED.bit.DBRED = 20;
-    EPwm8Regs.TZCTL.bit.TZA = TZ_FORCE_HI;
-    EPwm8Regs.TZCTL.bit.TZB = TZ_FORCE_LO;
     EDIS;
 
-    disablePWM();
 }
 
 void disablePWM(void) {
