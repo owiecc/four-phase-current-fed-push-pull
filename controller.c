@@ -72,10 +72,9 @@ void setControllerIoutRef(float x) { refDeltaVclamp = x; }
 void adjControllerIoutRef(float x) { refDeltaVclamp += x; }
 
 // adcA1ISR - ADC A Interrupt 1 ISR
+// Runs with every switching cycle, runs the control law for the converter
 __interrupt void adcA1ISR(void)
 {
-    // GpioDataRegs.GPATOGGLE.bit.GPIO22 = 1;
-
     struct ADCResult meas = scaleADCs();
 
     if (false) // trip
