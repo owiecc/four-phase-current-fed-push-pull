@@ -72,11 +72,11 @@ void initPIConttrollers(void)
     PI_Io = initPI(PI_Io_Ki/FSW, 2*PI_Io_Ki/FSW, 0.5, -1, 0.00);
 }
 
-void setControllerVclampRef(float x) { refIo = x; }
-void adjControllerVclampRef(float x) { refIo += x; }
+void setControllerVclampRef(float x) { refDeltaVclamp = x; }
+void adjControllerVclampRef(float x) { refDeltaVclamp += x; }
 
-void setControllerIoutRef(float x) { refDeltaVclamp = x; }
-void adjControllerIoutRef(float x) { refDeltaVclamp += x; }
+void setControllerIoutRef(float x) { refIo = x; }
+void adjControllerIoutRef(float x) { refIo += x; }
 
 // adcA1ISR - ADC A Interrupt 1 ISR
 // Runs with every switching cycle, runs the control law for the converter
