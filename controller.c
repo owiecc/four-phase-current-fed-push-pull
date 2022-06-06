@@ -11,6 +11,7 @@
 #define FSW 40000
 #define PI_Vc_Ki 0.05f
 #define PI_Io_Ki 0.10f
+#define CYCLE_LIMIT 6000
 
 static struct piController PI_Vc = {0, 0, 0, 0, 0}; // Vclamp controller
 static struct piController PI_Io = {0, 0, 0, 0, 0}; // Iout controller
@@ -84,13 +85,13 @@ __interrupt void adcA1ISR(void)
 {
     struct ADCResult meas = scaleADCs();
 
-    static unsigned int ncycles = 400;
+    static unsigned int ncycles = CYCLE_LIMIT;
 
     if (ncycles-- == 0) // trip
     {
         disablePWM();
         *tripFeedback = TripOC;//isInSOA(meas, StateOn);
-        ncycles = 400;
+        ncycles = CYCLE_LIMIT;
     }
     else // normal operation
     {
