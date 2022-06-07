@@ -100,7 +100,7 @@ __interrupt void adcA1ISR(void)
         float errIout = refIo - meas.Iout;
 
         float d = updatePI(&PI_Vc, -errVclamp);
-        float p = updatePI(&PI_Io, -errIout);
+        float p = updatePI(&PI_Io, errIout);
 
         updateModulator(d, p);
     }
