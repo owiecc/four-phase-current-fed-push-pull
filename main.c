@@ -44,7 +44,7 @@ void main(void)
         {
             relayOn();
             initPIConttrollers();
-            setControllerIoutRef(5.0);
+            setControllerIoutRef(2.0);
             setControllerVclampRef(0.0);
             enablePWM();
             converter_state = StateOn;
