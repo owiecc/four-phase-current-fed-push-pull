@@ -11,7 +11,7 @@
 #define FSW 40000
 #define PI_Vc_Ki 0.05f
 #define PI_Io_Ki 0.10f
-#define CYCLE_LIMIT 6000
+#define CYCLE_LIMIT 60000
 
 static struct piController PI_Vc = {0, 0, 0, 0, 0}; // Vclamp controller
 static struct piController PI_Io = {0, 0, 0, 0, 0}; // Iout controller
