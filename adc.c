@@ -7,7 +7,7 @@ struct ADCCalibration ADCCal = {
     .coeffACD1 = (struct ADCScaling) {.gain = (6*665e3+10e3)/10e3*3.3/4095, .offset = 0}, // (6×665k, 10k) voltage divider
     .coeffACD2 = (struct ADCScaling) {.gain = (6*665e3+10e3)/10e3*3.3/4095, .offset = 0}, // (6×665k, 10k) voltage divider
     //.coeffACD3 = (struct ADCScaling) {.gain = 6.0/0.625*(3.3e3+6.8e3)/6.8e3*3.3/4095, .offset = (unsigned int) 2.5*6.8e3/(3.3e3+6.8e3)*4095/3.3} // LEM6-NP + (3.3k, 6.8k) voltage divider
-    .coeffACD3 = (struct ADCScaling) {.gain = 0.012876152, .offset = 1857} // LEM6-NP + (3.3k, 6.8k) voltage divider
+    .coeffACD3 = (struct ADCScaling) {.gain = -0.0128, .offset = 1890} // LEM6-NP + (3.3k, 6.8k) voltage divider
 };
 
 struct ADCResult readADC(void)
