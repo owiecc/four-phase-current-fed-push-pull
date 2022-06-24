@@ -6,11 +6,13 @@ struct piController {
     float a1b1;
     float a0b1;
     float b0;
-    float xprim;
-    float xprim_0;
+    float yprim;
+    float yprim_0;
+    float ylim_hi;
+    float ylim_lo;
 };
 
-struct piController initPI(float, float, float, float, float);
+struct piController initPI(float, float, float, float, float, float, float);
 float updatePI(struct piController *, float);
 void resetPI(struct piController *);
 
