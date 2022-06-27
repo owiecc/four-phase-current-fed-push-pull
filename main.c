@@ -19,6 +19,8 @@ void main(void)
     {
         enum button button = button_pressed();
 
+        converter_state = (tripStatus == NoTrip) ? converter_state : StateTrip;
+
         switch (converter_state)
         {
         case StateInitDSP:
@@ -52,11 +54,6 @@ void main(void)
         }
         case StateOn:
         {
-            if (tripStatus != NoTrip)
-            {
-                converter_state = StateTrip;
-                break;
-            }
             switch (button)
             {
             case BtnOff:
