@@ -29,8 +29,8 @@ void initTripFeedback(enum trip_status *);
 
 void initPIConttrollers(void);
 
-void setControllerVclampRef(float);
-void adjControllerVclampRef(float);
+void setControllerDeltaVclampRef(float);
+void adjControllerDeltaVclampRef(float);
 
 void setControllerIoutRef(float);
 void adjControllerIoutRef(float);

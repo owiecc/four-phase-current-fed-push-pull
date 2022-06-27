@@ -60,8 +60,8 @@ void initPIConttrollers(void)
     PI_Io = initPI(PI_Io_Ki/FSW, 2*PI_Io_Ki/FSW, 0.5, -1, 0.00, 0.25, -0.25);
 }
 
-void setControllerVclampRef(float x) { refDeltaVclamp = x; }
-void adjControllerVclampRef(float x) { refDeltaVclamp += x; }
+void setControllerDeltaVclampRef(float x) { refDeltaVclamp = x; }
+void adjControllerDeltaVclampRef(float x) { refDeltaVclamp += x; }
 
 void setControllerIoutRef(float x) { refIo = x; }
 void adjControllerIoutRef(float x) { refIo += x; }
