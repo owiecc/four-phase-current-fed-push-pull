@@ -12,7 +12,8 @@
 #define FSW 40000
 #define PI_Vc_Ki 0.05f
 #define PI_Io_Ki 0.10f
-#define CYCLE_LIMIT 60000
+#define SOFT_CYCLE_LIMIT 50000 // controllers regulate to initial state
+#define HARD_CYCLE_LIMIT 60000 // PWM off
 
 static struct piController PI_Vc = {0, 0, 0, 0, 0}; // Vclamp controller
 static struct piController PI_Io = {0, 0, 0, 0, 0}; // Iout controller
@@ -72,27 +73,36 @@ __interrupt void adcA1ISR(void)
 {
     struct ADCResult meas = scaleADCs();
 
-    static unsigned int ncycles = CYCLE_LIMIT;
+    static unsigned int ncycles = 0;
+    ncycles++;
 
-    if (ncycles-- == 0) // trip
+    float refVclamp = meas.Vin*Ninv; // track Vin with Vclamp
+
+    if (ncycles > SOFT_CYCLE_LIMIT)
+    {
+        refVclamp = 0.0f;
+        setControllerDeltaVclampRef(0.0f);
+        setControllerIoutRef(0.0f);
+    }
+
+    if (ncycles > HARD_CYCLE_LIMIT) // trip
     {
         disablePWM();
         *tripFeedback = TripOC;//isInSOA(meas, StateOn);
-        ncycles = CYCLE_LIMIT;
+        ncycles = 0;
     }
-    else // normal operation
-    {
-        float errVclamp = meas.Vin*Ninv + refDeltaVclamp - meas.Vclamp;
-        float errIout = refIo - meas.Iout;
 
-        float d = updatePI(&PI_Vc, -errVclamp);
-        float p = updatePI(&PI_Io, errIout);
+    float errVclamp = refVclamp + refDeltaVclamp - meas.Vclamp;
+    float errIout = refIo - meas.Iout;
 
-        updateModulator(d, p);
+    float d = updatePI(&PI_Vc, -errVclamp);
+    float p = updatePI(&PI_Io, errIout);
 
-        if (abs(errVclamp) < 10.0f) { ledOn(LEDOKVclampRegulator); } else { ledOff(LEDOKVclampRegulator); }
-        if (abs(errIout) < 0.1f) { ledOn(LEDOKIoRegulator); } else { ledOff(LEDOKIoRegulator); }
-    }
+    updateModulator(d, p);
+
+    if (abs(errVclamp) < 10.0f) { ledOn(LEDOKVclampRegulator); } else { ledOff(LEDOKVclampRegulator); }
+    if (abs(errIout) < 0.1f) { ledOn(LEDOKIoRegulator); } else { ledOff(LEDOKIoRegulator); }
+
 
     AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Clear the interrupt flag
 
