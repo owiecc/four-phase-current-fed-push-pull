@@ -22,45 +22,26 @@ static float refDeltaVclamp = 0.0f;
 
 static enum trip_status * tripFeedback;
 
-struct OPLimitsConverter SOA = {
-    .Vin =    (struct OPLimits) {.tripHi =  840, .startupHi =  820, .startupLo =  780, .tripLo = 720 },
-    .Vout =   (struct OPLimits) {.tripHi =  930, .startupHi =  925, .startupLo =  195, .tripLo = 190 },
-    .Vclamp = (struct OPLimits) {.tripHi = 1260, .startupHi = 1230, .startupLo = 1170, .tripLo = 1140},
-    .Iout =   (struct OPLimits) {.tripHi =    2, .startupHi =  0.1, .startupLo = -0.1, .tripLo = 0   }
+struct SOAConverter SOA = {
+    .Vin =    (struct Range) {.lo = 720.0f, .hi =  840.0f},
+    .Vout =   (struct Range) {.lo = 190.0f, .hi =  925.0f},
+    .Vclamp = (struct Range) {.lo = -10.0f, .hi = 1260.0f},
+    .Iout =   (struct Range) {.lo =  -6.0f, .hi =    6.0f}
 };
 
-inline int isInSOAOn(float val, struct OPLimits lims)
+inline int inRange(float x, struct Range r)
 {
-    return val < lims.tripHi && val > lims.tripLo;
+    return (x<r.hi && x>r.lo) ? 1 : 0;
 }
 
-inline int isInSOAStartup(float val, struct OPLimits lims)
+enum trip_status isInSOA(struct ADCResult sensors)
 {
-    return val < lims.startupHi && val > lims.startupLo;
-}
-
-enum trip_status isInSOA(struct ADCResult sensors, enum converter_states cs)
-{
-    switch (cs) {
-    case StateOn:
-        if (!isInSOAOn(sensors.Iout, SOA.Iout)) return TripOC;
-        if (!isInSOAOn(sensors.Vclamp, SOA.Vclamp)) return TripSOAVclamp;
-        if (!isInSOAOn(sensors.Vout, SOA.Vout)) return TripSOAVout;
-        if (!isInSOAOn(sensors.Vin, SOA.Vin)) return TripSOAVin;
-        break;
-    case StateStandby:
-        if (!isInSOAStartup(sensors.Iout, SOA.Iout)) return TripOC;
-        if (!isInSOAStartup(sensors.Vclamp, SOA.Vout)) return TripSOAVclamp; // Vclamp is charged to Vout
-        if (!isInSOAStartup(sensors.Vout, SOA.Vout)) return TripSOAVout;
-        if (!isInSOAStartup(sensors.Vin, SOA.Vin)) return TripSOAVin;
-        break;
-    default:
-        if (!isInSOAStartup(sensors.Iout, SOA.Iout)) return TripOC;
-        if (!isInSOAStartup(sensors.Vclamp, SOA.Vclamp)) return TripSOAVclamp;
-        if (!isInSOAStartup(sensors.Vout, SOA.Vout)) return TripSOAVout;
-        if (!isInSOAStartup(sensors.Vin, SOA.Vin)) return TripSOAVin;
-    }
-    return NoTrip;
+    enum trip_status is_tripped = NoTrip;
+    is_tripped = inRange(sensors.Iout, SOA.Iout) ? is_tripped : TripOC;
+    is_tripped = inRange(sensors.Vclamp, SOA.Vclamp) ? is_tripped : TripSOAVclamp;
+    is_tripped = inRange(sensors.Vout, SOA.Vout) ? is_tripped : TripSOAVout;
+    is_tripped = inRange(sensors.Vin, SOA.Vin) ? is_tripped : TripSOAVin;
+    return is_tripped;
 }
 
 void initTripFeedback(enum trip_status *x)
