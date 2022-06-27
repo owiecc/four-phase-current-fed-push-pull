@@ -32,7 +32,7 @@ void main(void)
             initTripFeedback(&tripStatus);
             initPIConttrollers(); // Initialize PI controllers
             setControllerIoutRef(0.0);
-            setControllerVclampRef(0.0);
+            setControllerDeltaVclampRef(0.0);
             converter_state = StateStandby;
             break;
         }
@@ -108,8 +108,8 @@ void adjust_reference(enum button button)
 
     if (param == Iout && button == BtnIncr) { adjControllerIoutRef(+0.5); }
     if (param == Iout && button == BtnDecr) { adjControllerIoutRef(-0.5); }
-    if (param == Vclamp && button == BtnIncr) { adjControllerIoutRef(+1.0); }
-    if (param == Vclamp && button == BtnDecr) { adjControllerIoutRef(-1.0); }
+    if (param == Vclamp && button == BtnIncr) { adjControllerDeltaVclampRef(+1.0); }
+    if (param == Vclamp && button == BtnDecr) { adjControllerDeltaVclampRef(-1.0); }
 
     // TODO display reference parameter and Iout, Vclamp reference values values
 
