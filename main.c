@@ -39,11 +39,16 @@ void main(void)
         case StateStandby:
         {
             adjust_reference(button);
+
             // Enable startup transition only if the converter is within SOA
-            if (button == BtnOn /*&& isInSOA(readADC(), StateStandby) == NoTrip*/)
-            {
-                converter_state = StateStartup;
-            }
+            struct ADCResult meas = readADC();
+            struct OPConverter SSA = {
+                .Vin =    SOA.Vin,
+                .Vout =   SOA.Vout,
+                .Vclamp = (struct Range) {.lo = 0.95f*meas.Vout, .hi = 1.05f*meas.Vout}, // Vclamp is pre-charged to Vout
+                .Iout =   (struct Range) {.lo =  -0.1f, .hi = 0.1f} // no output current
+            };
+            converter_state = (button == BtnOn && inRangeOP(meas, SSA) == NoTrip) ? StateStartup : StateStandby;
             break;
         }
         case StateStartup:
@@ -57,8 +62,7 @@ void main(void)
         case StateOn:
         {
             adjust_reference(button);
-            converter_state = button == BtnOff ? StateShutdown : converter_state;
-
+            converter_state = (button == BtnOff) ? StateShutdown : converter_state;
             break;
         }
         case StateShutdown:
@@ -79,7 +83,7 @@ void main(void)
             if (tripStatus == TripSOAVclamp) { ledOn(LEDTripSOAVclamp); }
 
             // Clear trip condition only if trip clear button is pressed and the converter is within SOA
-            if (button == BtnClrTrip /*&& isInSOA(readADC(), StateStandby) == NoTrip*/)
+            if (button == BtnClrTrip && inSOA(readADC()) == NoTrip)
             {
                 tripStatus = NoTrip;
                 converter_state = StateStandby;

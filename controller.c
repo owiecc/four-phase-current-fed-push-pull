@@ -22,7 +22,7 @@ static float refDeltaVclamp = 0.0f;
 
 static enum trip_status * tripFeedback;
 
-struct SOAConverter SOA = {
+struct OPConverter SOA = {
     .Vin =    (struct Range) {.lo = 720.0f, .hi =  840.0f},
     .Vout =   (struct Range) {.lo = 190.0f, .hi =  925.0f},
     .Vclamp = (struct Range) {.lo = -10.0f, .hi = 1260.0f},
@@ -34,14 +34,19 @@ inline int inRange(float x, struct Range r)
     return (x<r.hi && x>r.lo) ? 1 : 0;
 }
 
-enum trip_status isInSOA(struct ADCResult sensors)
+enum trip_status inRangeOP(struct ADCResult sensors, struct OPConverter op)
 {
     enum trip_status is_tripped = NoTrip;
-    is_tripped = inRange(sensors.Iout, SOA.Iout) ? is_tripped : TripOC;
-    is_tripped = inRange(sensors.Vclamp, SOA.Vclamp) ? is_tripped : TripSOAVclamp;
-    is_tripped = inRange(sensors.Vout, SOA.Vout) ? is_tripped : TripSOAVout;
-    is_tripped = inRange(sensors.Vin, SOA.Vin) ? is_tripped : TripSOAVin;
+    is_tripped = inRange(sensors.Iout, op.Iout) ? is_tripped : TripOC;
+    is_tripped = inRange(sensors.Vclamp, op.Vclamp) ? is_tripped : TripSOAVclamp;
+    is_tripped = inRange(sensors.Vout, op.Vout) ? is_tripped : TripSOAVout;
+    is_tripped = inRange(sensors.Vin, op.Vin) ? is_tripped : TripSOAVin;
     return is_tripped;
+}
+
+enum trip_status inSOA(struct ADCResult sensors)
+{
+    return inRangeOP(sensors, SOA);
 }
 
 void initTripFeedback(enum trip_status *x)

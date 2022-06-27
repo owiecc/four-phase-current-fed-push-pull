@@ -12,16 +12,18 @@ struct Range {
     float hi;
 };
 
-struct SOAConverter {
+struct OPConverter {
     struct Range Vin;
     struct Range Vout;
     struct Range Vclamp;
     struct Range Iout;
 };
 
-inline int inRange(float, struct Range);
+extern struct OPConverter SOA; // safe operating area
 
-enum trip_status isInSOA(struct ADCResult);
+inline int inRange(float, struct Range);
+enum trip_status inRangeOP(struct ADCResult, struct OPConverter);
+enum trip_status inSOA(struct ADCResult);
 
 void initTripFeedback(enum trip_status *);
 
