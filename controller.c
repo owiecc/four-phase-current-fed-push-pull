@@ -95,8 +95,7 @@ __interrupt void adcA1ISR(void)
     }
     else // normal operation
     {
-        float deltaVclamp = 0;
-        float errVclamp = meas.Vin*Ninv + deltaVclamp - meas.Vclamp;
+        float errVclamp = meas.Vin*Ninv + refDeltaVclamp - meas.Vclamp;
         float errIout = refIo - meas.Iout;
 
         float d = updatePI(&PI_Vc, -errVclamp);
