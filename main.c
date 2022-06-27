@@ -103,17 +103,16 @@ void main(void)
 
 void adjust_reference(enum button button)
 {
-    switch (button)
-    {
-    case BtnZero:
-        setControllerIoutRef(0.0);
-        break;
-    case BtnIncr:
-        setControllerIoutRef(0.5);
-        break;
-    case BtnDecr:
-        setControllerIoutRef(-0.5);
-        break;
-    }
+    static enum parameter param = Iout;
+
+    if (button == BtnSelectRef) { param = (param == Iout) ? Vclamp : Iout; } // switch between Iref and
+
+    if (param == Iout && button == BtnIncr) { adjControllerIoutRef(+0.5); }
+    if (param == Iout && button == BtnDecr) { adjControllerIoutRef(-0.5); }
+    if (param == Vclamp && button == BtnIncr) { adjControllerIoutRef(+1.0); }
+    if (param == Vclamp && button == BtnDecr) { adjControllerIoutRef(-1.0); }
+
+    // TODO display reference parameter and Iout, Vclamp reference values values
+
     return;
 }
