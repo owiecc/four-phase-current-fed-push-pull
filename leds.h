@@ -6,5 +6,6 @@ enum leds {LEDTripOC, LEDTripSOAVin, LEDTripSOAVout, LEDTripSOAVclamp, LEDOKIoRe
 
 void ledOn(enum leds);
 void ledOff(enum leds);
+void ledsOff();
 
 #endif /* LEDS_H_ */

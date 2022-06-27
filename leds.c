@@ -25,3 +25,13 @@ void ledOff(enum leds led)
     case LEDOKVclampRegulator: GpioDataRegs.GPACLEAR.bit.GPIO31 = 1; break;
     }
 }
+
+void ledsOff()
+{
+    ledOff(LEDTripOC);
+    ledOff(LEDTripSOAVin);
+    ledOff(LEDTripSOAVout);
+    ledOff(LEDTripSOAVclamp);
+    ledOff(LEDOKIoRegulator);
+    ledOff(LEDOKVclampRegulator);
+}
