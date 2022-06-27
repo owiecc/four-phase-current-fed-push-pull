@@ -12,6 +12,9 @@
 static enum converter_states converter_state = StateInitDSP;
 enum trip_status tripStatus = NoTrip;
 
+// Functions
+void adjust_reference(enum button);
+
 // Main
 void main(void)
 {
@@ -35,6 +38,7 @@ void main(void)
         }
         case StateStandby:
         {
+            adjust_reference(button);
             // Enable startup transition only if the converter is within SOA
             if (button == BtnOn /*&& isInSOA(readADC(), StateStandby) == NoTrip*/)
             {
@@ -46,29 +50,15 @@ void main(void)
         {
             relayOn();
             initPIConttrollers();
-            setControllerIoutRef(2.0);
-            setControllerVclampRef(0.0);
             enablePWM();
             converter_state = StateOn;
             break;
         }
         case StateOn:
         {
-            switch (button)
-            {
-            case BtnOff:
-                converter_state = StateShutdown;
-                break;
-            case BtnZero:
-                setControllerIoutRef(0.0);
-                break;
-            case BtnIncr:
-                setControllerIoutRef(0.1);
-                break;
-            case BtnDecr:
-                setControllerIoutRef(-0.1);
-                break;
-            }
+            adjust_reference(button);
+            converter_state = button == BtnOff ? StateShutdown : converter_state;
+
             break;
         }
         case StateShutdown:
@@ -109,4 +99,21 @@ void main(void)
         }
         DELAY_US(200000); // 0.2s
     }
+}
+
+void adjust_reference(enum button button)
+{
+    switch (button)
+    {
+    case BtnZero:
+        setControllerIoutRef(0.0);
+        break;
+    case BtnIncr:
+        setControllerIoutRef(0.5);
+        break;
+    case BtnDecr:
+        setControllerIoutRef(-0.5);
+        break;
+    }
+    return;
 }
