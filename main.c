@@ -83,12 +83,7 @@ void main(void)
             {
                 tripStatus = NoTrip;
                 converter_state = StateStandby;
-
-                // Turn off status LEDs
-                ledOff(LEDTripOC);
-                ledOff(LEDTripSOAVin);
-                ledOff(LEDTripSOAVout);
-                ledOff(LEDTripSOAVclamp);
+                ledsOff(); // Turn off status LEDs
             }
             break;
         }
