@@ -26,8 +26,8 @@ void main(void)
             initDSP(); // Configure GPIO, ADC, PWM
             initTripFeedback(&tripStatus);
             initPIConttrollers(); // Initialize PI controllers
-            // TODO Turn the Vclamp controller off
-            // TODO Turn the Iout controller off
+            setControllerIoutRef(0.0);
+            setControllerVclampRef(0.0);
             converter_state = StateStandby;
             break;
         }
