@@ -3,6 +3,7 @@
 #include "controller.h"
 #include "f28x_project.h"
 #include "pwm.h"
+#include "leds.h"
 
 #define n1 14
 #define n2 21
@@ -102,6 +103,9 @@ __interrupt void adcA1ISR(void)
         float p = updatePI(&PI_Io, errIout);
 
         updateModulator(d, p);
+
+        if (abs(errVclamp) < 10.0f) { ledOn(LEDOKVclampRegulator); } else { ledOff(LEDOKVclampRegulator); }
+        if (abs(errIout) < 0.1f) { ledOn(LEDOKIoRegulator); } else { ledOff(LEDOKIoRegulator); }
     }
 
     AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Clear the interrupt flag
