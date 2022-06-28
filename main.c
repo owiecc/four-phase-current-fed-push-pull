@@ -45,7 +45,7 @@ void main(void)
             struct OPConverter SSA = {
                 .Vin =    SOA.Vin,
                 .Vout =   SOA.Vout,
-                .Vclamp = (struct Range) {.lo = 0.95f*meas.Vout, .hi = 1.05f*meas.Vout}, // Vclamp is pre-charged to Vout
+                .Vclamp = (struct Range) {.lo = 0.9f*meas.Vout, .hi = 1.1f*meas.Vout}, // Vclamp is pre-charged to Vout
                 .Iout =   (struct Range) {.lo =  -0.1f, .hi = 0.1f} // no output current
             };
             converter_state = (button == BtnOn && inRangeOP(meas, SSA) == NoTrip) ? StateStartup : StateStandby;
