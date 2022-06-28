@@ -39,9 +39,13 @@ enum trip_status inRangeOP(struct ADCResult sensors, struct OPConverter op)
 {
     enum trip_status is_tripped = NoTrip;
     is_tripped = inRange(sensors.Iout, op.Iout) ? is_tripped : TripOC;
+    if (is_tripped == TripOC) {ledOn(LEDTripOC);} else {ledOff(LEDTripOC);}
     is_tripped = inRange(sensors.Vclamp, op.Vclamp) ? is_tripped : TripSOAVclamp;
+    if (is_tripped == TripSOAVclamp) {ledOn(LEDTripSOAVclamp);} else {ledOff(LEDTripSOAVclamp);}
     is_tripped = inRange(sensors.Vout, op.Vout) ? is_tripped : TripSOAVout;
+    if (is_tripped == TripSOAVout) {ledOn(LEDTripSOAVout);} else {ledOff(LEDTripSOAVout);}
     is_tripped = inRange(sensors.Vin, op.Vin) ? is_tripped : TripSOAVin;
+    if (is_tripped == TripSOAVin) {ledOn(LEDTripSOAVin);} else {ledOff(LEDTripSOAVin);}
     return is_tripped;
 }
 

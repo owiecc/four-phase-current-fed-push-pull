@@ -76,6 +76,7 @@ void main(void)
         {
             relayOff(); // TODO Is this safe e.g. in over-current condition?
 
+            ledsOff();
             // Indicate trip status on LEDs
             if (tripStatus == TripOC) { ledOn(LEDTripOC); }
             if (tripStatus == TripSOAVin) { ledOn(LEDTripSOAVin); }
