@@ -9,8 +9,8 @@ void ledOn(enum leds led)
     case LEDTripSOAVin: GpioDataRegs.GPASET.bit.GPIO28 = 1; break;
     case LEDTripSOAVout: GpioDataRegs.GPASET.bit.GPIO23 = 1; break;
     case LEDTripSOAVclamp: GpioDataRegs.GPASET.bit.GPIO22 = 1; break;
-    case LEDOKIoRegulator: GpioDataRegs.GPASET.bit.GPIO30 = 1; break;
-    case LEDOKVclampRegulator: GpioDataRegs.GPASET.bit.GPIO31 = 1; break;
+    case LEDIoutAdjust: GpioDataRegs.GPASET.bit.GPIO30 = 1; break;
+    case LEDVclampAdjust: GpioDataRegs.GPASET.bit.GPIO31 = 1; break;
     }
 }
 
@@ -21,8 +21,8 @@ void ledOff(enum leds led)
     case LEDTripSOAVin: GpioDataRegs.GPACLEAR.bit.GPIO28 = 1; break;
     case LEDTripSOAVout: GpioDataRegs.GPACLEAR.bit.GPIO23 = 1; break;
     case LEDTripSOAVclamp: GpioDataRegs.GPACLEAR.bit.GPIO22 = 1; break;
-    case LEDOKIoRegulator: GpioDataRegs.GPACLEAR.bit.GPIO30 = 1; break;
-    case LEDOKVclampRegulator: GpioDataRegs.GPACLEAR.bit.GPIO31 = 1; break;
+    case LEDIoutAdjust: GpioDataRegs.GPACLEAR.bit.GPIO30 = 1; break;
+    case LEDVclampAdjust: GpioDataRegs.GPACLEAR.bit.GPIO31 = 1; break;
     }
 }
 
@@ -32,6 +32,6 @@ void ledsOff()
     ledOff(LEDTripSOAVin);
     ledOff(LEDTripSOAVout);
     ledOff(LEDTripSOAVclamp);
-    ledOff(LEDOKIoRegulator);
-    ledOff(LEDOKVclampRegulator);
+    ledOff(LEDIoutAdjust);
+    ledOff(LEDVclampAdjust);
 }

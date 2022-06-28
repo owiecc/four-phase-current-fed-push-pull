@@ -100,10 +100,6 @@ __interrupt void adcA1ISR(void)
 
     updateModulator(d, p);
 
-    if (abs(errVclamp) < 10.0f) { ledOn(LEDOKVclampRegulator); } else { ledOff(LEDOKVclampRegulator); }
-    if (abs(errIout) < 0.1f) { ledOn(LEDOKIoRegulator); } else { ledOff(LEDOKIoRegulator); }
-
-
     AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Clear the interrupt flag
 
     // Check if overflow has occurred

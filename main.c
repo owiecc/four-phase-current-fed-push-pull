@@ -106,6 +106,10 @@ void adjust_reference(enum button button)
 
     if (button == BtnSelectRef) { param = (param == Iout) ? Vclamp : Iout; } // switch between Iref and
 
+    // indicate adjustment mode
+    if (param == Vclamp) { ledOn(LEDVclampAdjust); } else { ledOff(LEDVclampAdjust); }
+    if (param == Iout) { ledOn(LEDIoutAdjust); } else { ledOff(LEDIoutAdjust); }
+
     if (param == Iout && button == BtnIncr) { adjControllerIoutRef(+0.5); }
     if (param == Iout && button == BtnDecr) { adjControllerIoutRef(-0.5); }
     if (param == Vclamp && button == BtnIncr) { adjControllerDeltaVclampRef(+1.0); }
