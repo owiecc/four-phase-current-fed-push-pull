@@ -8,7 +8,7 @@ struct ADCCalibration ADCCal = {
     .coeffACD0 = (struct ADCScaling) {.gain = (9*665e3+10e3/2+10e3)/10e3*3.3/4095, .offset = 0}, // (9×665k + 10k/2, 10k) voltage divider
     .coeffACD1 = (struct ADCScaling) {.gain = (6*665e3+10e3)/10e3*3.3/4095, .offset = 0}, // (6×665k, 10k) voltage divider
     .coeffACD2 = (struct ADCScaling) {.gain = (6*665e3+10e3)/10e3*3.3/4095, .offset = 0}, // (6×665k, 10k) voltage divider
-    .coeffACD3 = (struct ADCScaling) {.gain = -0.009978, .offset = 1890} // LEM6-NP + (3.3k, 6.8k) voltage divider; calibrated parameters
+    .coeffACD3 = (struct ADCScaling) {.gain = -0.012, .offset = 1890} // LEM6-NP + (3.3k, 6.8k) voltage divider; calibrated parameters
 };
 
 void calibrateADC(void)
