@@ -11,14 +11,22 @@ struct ADCCalibration ADCCal = {
 
 struct ADCResult readADC(void)
 {
-    AdcaRegs.ADCSOCFRC1.all = 0x000F; // Force SOC0 to SOC3
+    // Do not trigger ADCINT1 if PWMs are disabled; force trigger the ADC conversion
+    if (EPwm1Regs.TBCTL.bit.CTRMODE == TB_FREEZE)
+    {
+        EALLOW;
+        AdcaRegs.ADCINTSEL1N2.bit.INT1E = 1;   // Disable ADCINT1
 
-    while (AdcaRegs.ADCINTFLG.bit.ADCINT1 != 1) {} // Wait for conversion to finish
+        AdcaRegs.ADCSOCFRC1.all = 0x000F; // Force SOC0 to SOC3
+        while (AdcaRegs.ADCINTFLG.bit.ADCINT1 != 1) {} // Wait for conversion to finish
+
+        AdcaRegs.ADCINTSEL1N2.bit.INT1E = 1;   // Enable ADCINT1
+        AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Make sure ADCINT1 flag is cleared
+        EDIS;
+    }
 
     struct ADCResult adcOut;
     adcOut = scaleADCs();
-
-    AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Clear the interrupt flag
 
     return adcOut;
 }
