@@ -84,19 +84,19 @@ void initADCSOC(void)
     // Select the channels to convert and the end of conversion flag
     EALLOW;
     AdcaRegs.ADCSOC0CTL.bit.CHSEL = 0;     // SOC0 will convert pin A0 = Vclamp
-    AdcaRegs.ADCSOC0CTL.bit.ACQPS = 9;     // Sample window is 10 SYSCLK cycles
+    AdcaRegs.ADCSOC0CTL.bit.ACQPS = 24;     // Sample window is 25 SYSCLK cycles
     AdcaRegs.ADCSOC0CTL.bit.TRIGSEL = 5;   // Trigger on ePWM1 SOCA
 
     AdcaRegs.ADCSOC1CTL.bit.CHSEL = 1;     // SOC1 will convert pin A1 = Vin
-    AdcaRegs.ADCSOC1CTL.bit.ACQPS = 9;     // Sample window is 10 SYSCLK cycles
+    AdcaRegs.ADCSOC1CTL.bit.ACQPS = 24;     // Sample window is 25 SYSCLK cycles
     AdcaRegs.ADCSOC1CTL.bit.TRIGSEL = 5;   // Trigger on ePWM1 SOCA
 
     AdcaRegs.ADCSOC2CTL.bit.CHSEL = 2;     // SOC2 will convert pin A2 = Vout
-    AdcaRegs.ADCSOC2CTL.bit.ACQPS = 9;     // Sample window is 10 SYSCLK cycles
+    AdcaRegs.ADCSOC2CTL.bit.ACQPS = 24;     // Sample window is 25 SYSCLK cycles
     AdcaRegs.ADCSOC2CTL.bit.TRIGSEL = 5;   // Trigger on ePWM1 SOCA
 
     AdcaRegs.ADCSOC3CTL.bit.CHSEL = 4;     // SOC3 will convert pin A4 = Iout
-    AdcaRegs.ADCSOC3CTL.bit.ACQPS = 9;     // Sample window is 10 SYSCLK cycles
+    AdcaRegs.ADCSOC3CTL.bit.ACQPS = 24;     // Sample window is 25 SYSCLK cycles
     AdcaRegs.ADCSOC3CTL.bit.TRIGSEL = 5;   // Trigger on ePWM1 SOCA
 
     AdcaRegs.ADCINTSEL1N2.bit.INT1SEL = 3; // End of SOC3 will set ADCINT1 flag
