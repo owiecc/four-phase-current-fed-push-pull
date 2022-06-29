@@ -49,7 +49,7 @@ void main(void)
                 .Vclamp = (struct Range) {.lo = 0.9f*meas.Vout, .hi = 1.1f*meas.Vout}, // Vclamp is pre-charged to Vout
                 .Iout =   (struct Range) {.lo =  -0.1f, .hi = 0.1f} // no output current
             };
-            converter_state = (button == BtnOn && inRangeOP(meas, SSA) == NoTrip) ? StateStartup : StateStandby;
+            converter_state = (inRangeOP(meas, SSA) == NoTrip && button == BtnOn) ? StateStartup : StateStandby;
             break;
         }
         case StateStartup:
