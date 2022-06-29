@@ -15,7 +15,7 @@ void calibrateADC(void)
 {
     DELAY_US(1000000); // 1.0s
 
-    unsigned int IoutOffset = 0;
+    unsigned long int IoutOffset = 0;
     for (int i = 0; i < N_AVG_IOUT_CAL; i++)
     {
         DELAY_US(320000/N_AVG_IOUT_CAL); // total process should take multiple of 20ms (works in 50/60Hz grid)
@@ -23,7 +23,7 @@ void calibrateADC(void)
         IoutOffset += AdcaResultRegs.ADCRESULT3; // Iout ADC value
     }
 
-    ADCCal.coeffACD3.offset = IoutOffset/N_AVG_IOUT_CAL;
+    ADCCal.coeffACD3.offset = (int)(IoutOffset/N_AVG_IOUT_CAL);
 }
 
 struct ADCResult readADC(void)

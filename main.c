@@ -33,6 +33,7 @@ void main(void)
             initPIConttrollers(); // Initialize PI controllers
             setControllerIoutRef(0.0);
             setControllerDeltaVclampRef(0.0);
+            calibrateADC();
             converter_state = StateStandby;
             break;
         }
@@ -53,7 +54,6 @@ void main(void)
         }
         case StateStartup:
         {
-            calibrateADC();
             relayOn();
             initPIConttrollers();
             enablePWM();
