@@ -74,8 +74,8 @@ void initADCSOC(void)
     AdcaRegs.ADCSOC3CTL.bit.ACQPS = 9;     // Sample window is 10 SYSCLK cycles
     AdcaRegs.ADCSOC3CTL.bit.TRIGSEL = 5;   // Trigger on ePWM1 SOCA
 
-    AdcaRegs.ADCINTSEL1N2.bit.INT1SEL = 3; // End of SOC3 will set INT1 flag
-    AdcaRegs.ADCINTSEL1N2.bit.INT1E = 1;   // Enable INT1 flag
-    AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Make sure INT1 flag is cleared
+    AdcaRegs.ADCINTSEL1N2.bit.INT1SEL = 3; // End of SOC3 will set ADCINT1 flag
+    AdcaRegs.ADCINTSEL1N2.bit.INT1E = 1;   // Enable ADCINT1
+    AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Make sure ADCINT1 flag is cleared
     EDIS;
 }
