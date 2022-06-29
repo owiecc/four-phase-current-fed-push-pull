@@ -61,7 +61,7 @@ inline struct ADCResult scaleADCs(void)
 
 inline float scaleADC(unsigned int ADCResult, struct ADCScaling coeffADC)
 {
-    return (ADCResult - coeffADC.offset)*coeffADC.gain;
+    return ((int)ADCResult - coeffADC.offset)*coeffADC.gain;
 }
 
 // initADC - Function to configure and power up ADCA.
