@@ -99,25 +99,31 @@ void main(void)
             break;
         }
         }
-        DELAY_US(200000); // 0.2s
+        DELAY_US(50000); // 50ms
     }
 }
 
-void adjust_reference(enum button button)
+void adjust_reference(enum button button_pressed)
 {
     static enum parameter param = Iout;
 
+    // react to button only on press, not on hold
+    static enum button button_prev = BtnNothing;
+    int isPressed = (button_pressed != button_prev) && button_pressed != BtnNothing;
+    enum button button = isPressed ? button_pressed : BtnNothing;
+
     if (button == BtnSelectRef) { param = (param == Iout) ? Vclamp : Iout; } // switch between Iref and
 
-    // indicate adjustment mode
-    if (param == Vclamp) { ledOn(LEDVclampAdjust); } else { ledOff(LEDVclampAdjust); }
-    if (param == Iout) { ledOn(LEDIoutAdjust); } else { ledOff(LEDIoutAdjust); }
+    // indicate adjustment mode; blink on button press
+    if (param == Vclamp && !isPressed) { ledOn(LEDVclampAdjust); } else { ledOff(LEDVclampAdjust); }
+    if (param == Iout && !isPressed) { ledOn(LEDIoutAdjust); } else { ledOff(LEDIoutAdjust); }
 
     if (param == Iout && button == BtnIncr) { adjControllerIoutRef(+0.5); }
     if (param == Iout && button == BtnDecr) { adjControllerIoutRef(-0.5); }
     if (param == Vclamp && button == BtnIncr) { adjControllerDeltaVclampRef(+1.0); }
     if (param == Vclamp && button == BtnDecr) { adjControllerDeltaVclampRef(-1.0); }
 
+    button_prev = button_pressed;
     // TODO display reference parameter and Iout, Vclamp reference values values
 
     return;
