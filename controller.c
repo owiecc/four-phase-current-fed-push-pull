@@ -82,17 +82,17 @@ __interrupt void adcA1ISR(void)
 
     float refVclamp = meas.Vin*Ninv; // track Vin with Vclamp
 
-    if (ncycles > SOFT_CYCLE_LIMIT)
+    if (ncycles > SOFT_CYCLE_LIMIT) // set default references
     {
         refVclamp = 0.0f;
         setControllerDeltaVclampRef(0.0f);
         setControllerIoutRef(0.0f);
     }
 
-    if (ncycles > HARD_CYCLE_LIMIT) // trip
+    if (ncycles > HARD_CYCLE_LIMIT) // trip the converter
     {
         disablePWM();
-        *tripFeedback = TripOC;//isInSOA(meas, StateOn);
+        *tripFeedback = TripCycleLimit;
         ncycles = 0;
     }
 

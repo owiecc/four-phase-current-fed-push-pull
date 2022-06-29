@@ -5,7 +5,7 @@
 #include "adc.h"
 
 enum converter_states {StateInitDSP,StateStandby,StateStartup,StateOn,StateShutdown,StateTrip};
-enum trip_status {TripOC, TripSOAVin, TripSOAVout, TripSOAVclamp, NoTrip};
+enum trip_status {TripOC, TripSOAVin, TripSOAVout, TripSOAVclamp, TripCycleLimit, NoTrip};
 
 struct Range {
     float lo;
