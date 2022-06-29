@@ -4,7 +4,7 @@
 
 struct ADCScaling {
     float gain;
-    unsigned int offset;
+    int offset;
 };
 
 struct ADCCalibration {
