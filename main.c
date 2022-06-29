@@ -53,6 +53,7 @@ void main(void)
         }
         case StateStartup:
         {
+            calibrateADC();
             relayOn();
             initPIConttrollers();
             enablePWM();

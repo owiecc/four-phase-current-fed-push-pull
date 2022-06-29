@@ -2,12 +2,29 @@
 #include "adc.h"
 #include "f28x_project.h"
 
+const int N_AVG_IOUT_CAL = 128;
+
 struct ADCCalibration ADCCal = {
     .coeffACD0 = (struct ADCScaling) {.gain = (9*665e3+10e3/2+10e3)/10e3*3.3/4095, .offset = 0}, // (9×665k + 10k/2, 10k) voltage divider
     .coeffACD1 = (struct ADCScaling) {.gain = (6*665e3+10e3)/10e3*3.3/4095, .offset = 0}, // (6×665k, 10k) voltage divider
     .coeffACD2 = (struct ADCScaling) {.gain = (6*665e3+10e3)/10e3*3.3/4095, .offset = 0}, // (6×665k, 10k) voltage divider
     .coeffACD3 = (struct ADCScaling) {.gain = -0.009978, .offset = 1890} // LEM6-NP + (3.3k, 6.8k) voltage divider; calibrated parameters
 };
+
+void calibrateADC(void)
+{
+    DELAY_US(1000000); // 1.0s
+
+    unsigned int IoutOffset = 0;
+    for (int i = 0; i < N_AVG_IOUT_CAL; i++)
+    {
+        DELAY_US(320000/N_AVG_IOUT_CAL); // total process should take multiple of 20ms (works in 50/60Hz grid)
+        readADC();
+        IoutOffset += AdcaResultRegs.ADCRESULT3; // Iout ADC value
+    }
+
+    ADCCal.coeffACD3.offset = IoutOffset/N_AVG_IOUT_CAL;
+}
 
 struct ADCResult readADC(void)
 {

@@ -4,7 +4,7 @@
 
 struct ADCScaling {
     float gain;
-    float offset;
+    unsigned int offset;
 };
 
 struct ADCCalibration {
@@ -26,5 +26,6 @@ void initADCSOC(void);
 float scaleADC(unsigned int, struct ADCScaling);
 struct ADCResult scaleADCs(void);
 struct ADCResult readADC(void);
+void calibrateADC(void);
 
 #endif /* ADC_H_ */
