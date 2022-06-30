@@ -9,7 +9,6 @@
 #define n2 21
 #define N ((float)n1/(float)n2)
 #define Ninv ((float)n2/(float)n1)
-#define FSW 40000
 #define PI_Vc_Ki 0.05f
 #define PI_Io_Ki 0.10f
 #define SOFT_CYCLE_LIMIT 50000 // controllers regulate to initial state
