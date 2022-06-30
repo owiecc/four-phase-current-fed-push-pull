@@ -14,6 +14,7 @@
 #define PI_Io_Ki 0.10f
 #define SOFT_CYCLE_LIMIT 50000 // controllers regulate to initial state
 #define HARD_CYCLE_LIMIT 60000 // PWM off
+#define AUX_SUPPLY_MIN 195
 
 static struct piController PI_Vc = {0, 0, 0, 0, 0}; // Vclamp controller
 static struct piController PI_Io = {0, 0, 0, 0, 0}; // Iout controller
@@ -24,9 +25,9 @@ static float refDeltaVclamp = 0.0f;
 static enum trip_status * tripFeedback;
 
 struct OPConverter SOA = {
-    .Vin =    (struct Range) {.lo = 720.0f, .hi =  840.0f},
-    .Vout =   (struct Range) {.lo = 190.0f, .hi =  925.0f},
-    .Vclamp = (struct Range) {.lo = -10.0f, .hi = 1260.0f},
+    .Vin =    (struct Range) {.lo = 190.0f, .hi =  840.0f},
+    .Vout =   (struct Range) {.lo =  90.0f, .hi =  925.0f},
+    .Vclamp = (struct Range) {.lo =  90.0f, .hi = 1260.0f},
     .Iout =   (struct Range) {.lo =  -6.0f, .hi =    6.0f}
 };
 
@@ -80,16 +81,28 @@ __interrupt void adcA1ISR(void)
     static unsigned int ncycles = 0;
     ncycles++;
 
+    // Test if current operating point is within safe operating area; trip otherwise
+    enum trip_status tripStatus = inSOA(meas);
+    if (tripStatus != NoTrip)
+    {
+        disablePWM();
+        *tripFeedback = tripStatus;
+        ncycles = 0;
+    }
+
+    //
+    if (meas.Vin < AUX_SUPPLY_MIN) { ncycles = SOFT_CYCLE_LIMIT; }
+
     float refVclamp = meas.Vin*Ninv; // track Vin with Vclamp
 
-    if (ncycles > SOFT_CYCLE_LIMIT) // set default references
+    if (ncycles >= SOFT_CYCLE_LIMIT) // set default references
     {
         refVclamp = 0.0f;
         setControllerDeltaVclampRef(0.0f);
         setControllerIoutRef(0.0f);
     }
 
-    if (ncycles > HARD_CYCLE_LIMIT) // trip the converter
+    if (ncycles >= HARD_CYCLE_LIMIT) // trip the converter
     {
         disablePWM();
         *tripFeedback = TripCycleLimit;
