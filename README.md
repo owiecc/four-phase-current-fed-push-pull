@@ -1,5 +1,5 @@
 # Four-phase current-fed push-pull converter controller
-Controller for a four-phase current-fed push-pull topology. Based on a TMDSCNCD280025C control card. 
+Controller for a four-phase current-fed push-pull topology. Based on a TMDSCNCD280039C control card. 
 
 ## Pinout
 
