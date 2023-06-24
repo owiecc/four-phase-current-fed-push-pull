@@ -11,8 +11,8 @@
 #define Ninv ((float)n2/(float)n1)
 #define PI_Vc_Ki 0.05f
 #define PI_Io_Ki 0.10f
-#define SOFT_CYCLE_LIMIT 50000 // controllers regulate to initial state
-#define HARD_CYCLE_LIMIT 60000 // PWM off
+#define SOFT_CYCLE_LIMIT 40000 // 1.0s controllers regulate to initial state
+#define HARD_CYCLE_LIMIT 44000 // 1.1s PWM off
 #define AUX_SUPPLY_MIN 195
 
 static struct piController PI_Vc = {0, 0, 0, 0, 0}; // Vclamp controller
