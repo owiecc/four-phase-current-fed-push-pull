@@ -32,12 +32,12 @@ struct ADCResult readADC(void)
     if (EPwm1Regs.TBCTL.bit.CTRMODE == TB_FREEZE)
     {
         EALLOW;
-        AdcaRegs.ADCINTSEL1N2.bit.INT1E = 0;   // Disable ADCINT1
+        //AdcaRegs.ADCINTSEL1N2.bit.INT1E = 0;   // Disable ADCINT1
 
         AdcaRegs.ADCSOCFRC1.all = 0x000F; // Force SOC0 to SOC3
         DELAY_US(1);
 
-        AdcaRegs.ADCINTSEL1N2.bit.INT1E = 1;   // Enable ADCINT1
+        //AdcaRegs.ADCINTSEL1N2.bit.INT1E = 1;   // Enable ADCINT1
         AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Make sure ADCINT1 flag is cleared
         EDIS;
     }

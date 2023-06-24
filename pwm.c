@@ -212,6 +212,10 @@ void disablePWM(void) {
     EPwm7Regs.TBCTL.bit.CTRMODE = TB_FREEZE; 
     EPwm8Regs.TBCTL.bit.CTRMODE = TB_FREEZE; 
     EDIS;
+
+    EALLOW;
+    AdcaRegs.ADCINTSEL1N2.bit.INT1E = 0;   // Disable ADCINT1
+    EDIS;
 }
 
 void enablePWM(void) {
@@ -255,5 +259,10 @@ void enablePWM(void) {
     EPwm6Regs.TZCLR.bit.OST = 1;
     EPwm7Regs.TZCLR.bit.OST = 1;
     EPwm8Regs.TZCLR.bit.OST = 1;
+    EDIS;
+
+    EALLOW;
+    AdcaRegs.ADCINTSEL1N2.bit.INT1E = 1;   // Enable ADCINT1
+    AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; // Make sure ADCINT1 flag is cleared
     EDIS;
 }
